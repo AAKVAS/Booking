@@ -6,6 +6,9 @@ import android.widget.EditText
 import androidx.core.content.ContextCompat.getString
 import com.example.booking.R
 
+/**
+ * Диалоговое окно для ввода строкового значения
+ */
 class TextInputDialog(
     context: Context,
     title: String,

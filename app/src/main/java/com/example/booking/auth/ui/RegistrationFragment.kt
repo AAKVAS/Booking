@@ -14,7 +14,7 @@ import com.example.booking.MainActivity
 import com.example.booking.R
 import com.example.booking.auth.domain.model.RegistrationDetails
 import com.example.booking.auth.ui.viewmodel.RegistrationViewModel
-import com.example.booking.common.ui.showBirthdayPicker
+import com.example.booking.common.ui.showDatePicker
 import com.example.booking.common.utils.toStringDate
 import com.example.booking.databinding.FragmentRegistrationBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,7 +50,7 @@ class RegistrationFragment : Fragment() {
                 navToLoginScreen()
             }
             teBirthday.editText!!.setOnClickListener {
-                showBirthdayPicker(DATE_PICKER_TAG) { date ->
+                showDatePicker(DATE_PICKER_TAG) { date ->
                     registrationDetails = registrationDetails.copy(birthday = date)
                     teBirthday.editText!!.setText(date.toStringDate())
                 }

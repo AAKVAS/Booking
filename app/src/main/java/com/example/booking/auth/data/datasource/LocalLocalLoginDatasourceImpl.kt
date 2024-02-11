@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.booking.auth.data.entity.UserDetails
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
@@ -31,7 +32,9 @@ class LocalLocalLoginDatasourceImpl(private val context: Context)
     }
 
     override fun getLoggedUserDetails(): Flow<UserDetails> {
-        return context.dataStore.data.map {
+        return context.dataStore.data
+            .filter { it[USER_TOKEN] != null }
+            .map {
             UserDetails(
                 token = it[USER_TOKEN]!!,
                 login = it[USER_LOGIN]!!,
@@ -44,6 +47,16 @@ class LocalLocalLoginDatasourceImpl(private val context: Context)
 
     override suspend fun isUserLogged(): Boolean {
         return context.dataStore.data.first()[USER_TOKEN] != null
+    }
+
+    override suspend fun logout() {
+        context.dataStore.edit {
+            it.remove(USER_TOKEN)
+            it.remove(USER_LOGIN)
+            it.remove(USER_LASTNAME)
+            it.remove(USER_FIRSTNAME)
+            it.remove(USER_BIRTHDAY)
+        }
     }
 
     companion object {

@@ -1,10 +1,12 @@
 package com.example.booking.profile.ui
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -12,17 +14,17 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.booking.MainActivity
 import com.example.booking.R
 import com.example.booking.auth.data.entity.UserDetails
-import com.example.booking.common.ui.showBirthdayPicker
+import com.example.booking.common.ui.showDatePicker
 import com.example.booking.common.utils.TextInputDialog
 import com.example.booking.common.utils.toStringDate
-import com.example.booking.databinding.FragmentServiceBinding
 import com.example.booking.databinding.FragmentSettingsBinding
 import com.example.booking.profile.ui.viewModel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+/**
+ * Фрагмент настроек аккаунта пользователя
+ */
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
@@ -41,26 +43,19 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             btnLogout.setOnClickListener {
-                logout()
+                viewModel.logout()
             }
             btnChangePassword.setOnClickListener {
                 changePassword()
             }
             ivEditLastname.setOnClickListener {
-                val context = requireContext()
-                TextInputDialog(context, resources.getString(R.string.input_new_lastname)) { newLastname ->
-                    val details = viewModel.userDetails.value.copy(lastname = newLastname)
-                    viewModel.saveUserDetails(details)
-                }.show()
+                showEditLastnameDialog()
             }
             ivEditFirstname.setOnClickListener {
-                TextInputDialog(requireContext(),  resources.getString(R.string.input_new_name)) { newFirstname ->
-                    val details = viewModel.userDetails.value.copy(firstname = newFirstname)
-                    viewModel.saveUserDetails(details)
-                }.show()
+                showEditFirstnameDialog()
             }
             ivEditBirthday.setOnClickListener {
-                showBirthdayPicker(
+                showDatePicker(
                     tag = SETTING_BIRTHDAY_TAG,
                     date = viewModel.userDetails.value.birthday
                 ) { newBirthday ->
@@ -72,10 +67,26 @@ class SettingsFragment : Fragment() {
         subscribeToViewModel()
     }
 
+    private fun showEditLastnameDialog() {
+        TextInputDialog(requireContext(), resources.getString(R.string.input_new_lastname)) { newLastname ->
+            val details = viewModel.userDetails.value.copy(lastname = newLastname)
+            viewModel.saveUserDetails(details)
+        }.show()
+    }
+
+    private fun showEditFirstnameDialog() {
+        TextInputDialog(requireContext(),  resources.getString(R.string.input_new_name)) { newFirstname ->
+            val details = viewModel.userDetails.value.copy(firstname = newFirstname)
+            viewModel.saveUserDetails(details)
+        }.show()
+    }
+
     private fun subscribeToViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.userDetails.collect(::onUserDetailsChanged)
+                launch { viewModel.userDetails.collect(::onUserDetailsChanged) }
+                launch { viewModel.detailsSavedResult.collect(::onDetailsSaved) }
+                launch { viewModel.logoutResult.collect(::onLogout) }
             }
         }
     }
@@ -88,9 +99,29 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun logout() {
-        (requireActivity() as MainActivity).navController
-            .navigate(R.id.action_registrationFragment_to_loginFragment)
+    private fun onDetailsSaved(result: Result<Unit>) {
+        if (result.isSuccess) {
+            Toast.makeText(requireContext(), R.string.success_saved, Toast.LENGTH_LONG)
+        } else {
+            with(AlertDialog.Builder(requireContext())) {
+                setTitle(R.string.error_happen)
+                setMessage(R.string.data_not_saved)
+                show()
+            }
+        }
+    }
+
+    private fun onLogout(result: Result<Unit>) {
+        if (result.isSuccess) {
+            (requireActivity() as MainActivity).navController
+                .navigate(R.id.action_settingsFragment_to_loginFragment)
+        } else {
+            with(AlertDialog.Builder(requireContext())) {
+                setTitle(R.string.error_happen)
+                setMessage(R.string.logout_failed)
+                show()
+            }
+        }
     }
 
     private fun changePassword() {

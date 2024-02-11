@@ -14,6 +14,9 @@ import com.example.booking.common.ui.viewModel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/**
+ * Главная активность приложения
+ */
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -32,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             if (!viewModel.isUserLogged()) {
                 _navController.navigate(R.id.loginFragment)
             } else {
-                _navController.navigate(R.id.serviceListFragment)
+                _navController.navigate(R.id.action_serviceListFragment_root)
             }
         }
     }

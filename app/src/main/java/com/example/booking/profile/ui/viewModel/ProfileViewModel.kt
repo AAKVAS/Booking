@@ -16,12 +16,18 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * [ViewModel] для фрагмента профиля пользователя приложения
+ */
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val interactor: ProfileInteractor
 ) : ViewModel() {
     private val _userDetails: MutableStateFlow<UserDetails> = MutableStateFlow(UserDetails())
 
+    /**
+     * Данные об аккаунте прользователя
+     */
     val userDetails: StateFlow<UserDetails>
         get() = _userDetails
 

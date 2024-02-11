@@ -19,4 +19,9 @@ interface LocalLoginDatasource {
      * Вошёл ли пользователь в аккаунт
      */
     suspend fun isUserLogged(): Boolean
+
+    /**
+     * Выйти из аккаунта
+     */
+    suspend fun logout()
 }

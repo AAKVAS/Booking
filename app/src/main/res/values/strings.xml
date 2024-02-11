@@ -35,4 +35,8 @@
 
     <string name="choose_date">Выберите дату</string>
     <string name="not_registered">Не удалось зарегестрировать Ваш аккаунт!</string>
+    <string name="success_saved">Сохранено!</string>
+    <string name="error_happen">Произошла ошибка</string>
+    <string name="data_not_saved">Не удалось сохранить данные</string>
+    <string name="logout_failed">Не удалось выйти из аккаунта</string>
 </resources>

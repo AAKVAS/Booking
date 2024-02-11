@@ -17,6 +17,9 @@ import com.example.booking.profile.ui.viewModel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/**
+ * Фрагмент профиля пользователя приложения
+ */
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding

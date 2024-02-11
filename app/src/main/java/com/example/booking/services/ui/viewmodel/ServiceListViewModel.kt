@@ -11,13 +11,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
+/**
+ * [ViewModel] фрагмента со списком всех и избранных услуг
+ */
 @HiltViewModel
 class ServiceListViewModel @Inject constructor(
     private val interactor: CatalogInteractor
 ) : ViewModel() {
     private val _isLogged: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
+    /**
+     * Вошёл ли пользователь в аккаунт
+     */
     val isLogged: MutableStateFlow<Boolean>
         get() = _isLogged
 

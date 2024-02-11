@@ -4,7 +4,10 @@ import androidx.fragment.app.Fragment
 import com.example.booking.R
 import com.google.android.material.datepicker.MaterialDatePicker
 
-fun Fragment.showBirthdayPicker(
+/**
+ * Показать диалоговое окно для выбора даты
+ */
+fun Fragment.showDatePicker(
     tag: String,
     date: Long = MaterialDatePicker.todayInUtcMilliseconds(),
     onPosClick: (selection: Long) -> Unit = {}

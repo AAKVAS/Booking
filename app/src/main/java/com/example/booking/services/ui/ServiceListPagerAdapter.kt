@@ -4,8 +4,13 @@ package com.example.booking.services.ui
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class ServiceListPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-    private val items: List<Fragment> = listOf(CatalogFragment(), FavoriteFragment())
+/**
+ * Адаптер для [ViewPager2], предоставляющий списки каталога
+ */
+class ServiceListPagerAdapter(
+    fragment: Fragment,
+    private val items: List<Fragment>
+) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int {
         return items.size

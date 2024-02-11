@@ -31,4 +31,9 @@ interface LoginRepository {
      * Сохранить данные о пользователе
      */
     suspend fun saveUserDetails(userDetails: UserDetails)
+
+    /**
+     * Выйти из аккаунта
+     */
+    suspend fun logout()
 }

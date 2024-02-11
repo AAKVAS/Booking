@@ -5,6 +5,9 @@ import com.example.booking.auth.domain.repository.LoginRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+/**
+ * Интерактор для работы с настройками аккаунта пользователя приложения
+ */
 class SettingsInteractor @Inject constructor(
     private val loginRepository: LoginRepository
 ) {
@@ -19,11 +22,17 @@ class SettingsInteractor @Inject constructor(
      * Сохранить данные о пользователе
      */
     suspend fun saveUserDetails(userDetails: UserDetails): Result<Unit> {
-        return try {
+        return runCatching {
             loginRepository.saveUserDetails(userDetails)
-            Result.success(Unit)
-        } catch (exception: Exception) {
-            Result.failure(exception)
+        }
+    }
+
+    /**
+     * Выйти из аккаунта
+     */
+    suspend fun logout(): Result<Unit> {
+        return runCatching {
+            loginRepository.logout()
         }
     }
 }

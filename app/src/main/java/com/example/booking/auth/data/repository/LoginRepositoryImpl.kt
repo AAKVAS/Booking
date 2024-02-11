@@ -47,4 +47,8 @@ class LoginRepositoryImpl @Inject constructor (
         cloudDatasource.saveUserDetails(userDetails)
         localDatasource.saveUserDetails(userDetails)
     }
+
+    override suspend fun logout() {
+        localDatasource.logout()
+    }
 }

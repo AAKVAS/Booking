@@ -19,12 +19,14 @@ import com.example.booking.R
 import com.example.booking.common.utils.hideKeyboard
 import com.example.booking.databinding.FragmentServiceListBinding
 import com.example.booking.services.ui.viewmodel.ServiceListViewModel
-import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+/**
+ * Фрагмент списка всех и избранных услуг
+ */
 @AndroidEntryPoint
 class ServiceListFragment : Fragment() {
     private lateinit var binding: FragmentServiceListBinding
@@ -44,7 +46,6 @@ class ServiceListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupTopBar()
-        setupTab()
         subscribeToViewModel()
     }
 
@@ -66,16 +67,11 @@ class ServiceListFragment : Fragment() {
         }
     }
 
-    private fun setupTab() {
-        pagerAdapter = ServiceListPagerAdapter(this)
-        with(binding) {
-            pager.adapter = pagerAdapter
-            TabLayoutMediator(tab, pager) { tabView, pos ->
-                tabView.text = when(pos) {
-                    0 -> resources.getString(R.string.catalog)
-                    else -> resources.getString(R.string.favorite)
-                }
-            }.attach()
+    private fun getPagerItems(): List<Fragment> {
+        return if (viewModel.isLogged.value) {
+            listOf(CatalogFragment(), FavoriteFragment())
+        } else {
+            listOf(CatalogFragment())
         }
     }
 
@@ -89,6 +85,20 @@ class ServiceListFragment : Fragment() {
 
     private fun onLoggedChange(isLogged: Boolean) {
         binding.ivProfile.isVisible = isLogged
+        setupTab()
+    }
+
+    private fun setupTab() {
+        pagerAdapter = ServiceListPagerAdapter(this, getPagerItems())
+        with(binding) {
+            pager.adapter = pagerAdapter
+            TabLayoutMediator(tab, pager) { tabView, pos ->
+                tabView.text = when(pos) {
+                    0 -> resources.getString(R.string.catalog)
+                    else -> resources.getString(R.string.favorite)
+                }
+            }.attach()
+        }
     }
 
     private fun navToProfile() {

@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.booking.R
 
-
+/**
+ * Фрагмент избранных услуг
+ */
 class FavoriteFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
