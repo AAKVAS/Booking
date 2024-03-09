@@ -5,7 +5,14 @@
     <dimen name="padding_large">32dp</dimen>
     <dimen name="btn_height">48dp</dimen>
 
-    <dimen name="icon_size">28dp</dimen>
+    <dimen name="icon_size">20dp</dimen>
 
     <dimen name="medium_btn_width">220dp</dimen>
+    <dimen name="card_corner_radius">4dp</dimen>
+
+    <dimen name="service_icon_size">48dp</dimen>
+    <dimen name="star_size">32dp</dimen>
+
+    <dimen name="service_background_height">168dp</dimen>
+
 </resources>

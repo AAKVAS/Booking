@@ -94,7 +94,7 @@ class RegistrationFragment : Fragment() {
 
     private fun onRegisteredEvent(registered: Boolean) {
         if (registered) {
-            navToCatalog()
+            navToCatalogAfterRegister()
         } else {
             showNotRegisteredMessage()
         }
@@ -112,6 +112,11 @@ class RegistrationFragment : Fragment() {
     private fun navToCatalog() {
         (requireActivity() as MainActivity).navController
             .navigate(R.id.action_registrationFragment_to_serviceListFragment)
+    }
+
+    private fun navToCatalogAfterRegister() {
+        (requireActivity() as MainActivity).navController
+            .navigate(R.id.action_registrationFragment_to_serviceListFragment_root)
     }
 
     private fun showNotRegisteredMessage() {

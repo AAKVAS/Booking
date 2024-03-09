@@ -1,6 +1,6 @@
 package com.example.booking.profile.domain
 
-import com.example.booking.auth.data.entity.UserDetails
+import com.example.booking.auth.domain.model.UserDetails
 import com.example.booking.auth.domain.repository.LoginRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

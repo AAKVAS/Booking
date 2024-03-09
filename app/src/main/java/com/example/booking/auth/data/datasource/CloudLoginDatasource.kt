@@ -1,9 +1,10 @@
 package com.example.booking.auth.data.datasource
 
-import com.example.booking.auth.data.entity.LoginResult
-import com.example.booking.auth.data.entity.RegisterResult
-import com.example.booking.auth.data.entity.UserDetails
+import com.example.booking.auth.domain.model.LoginResult
+import com.example.booking.auth.domain.model.RegisterResult
+import com.example.booking.auth.domain.model.UserDetails
 import com.example.booking.auth.domain.model.RegistrationDetails
+import com.example.booking.profile.domain.model.ChangePasswordResult
 
 /**
  * Источник данных для аутентификации с backend'а
@@ -24,4 +25,9 @@ interface CloudLoginDatasource {
      * Сохранить данные о пользователе
      */
     suspend fun saveUserDetails(userDetails: UserDetails): Result<Unit>
+
+    /**
+     * Изменить пароль
+     */
+    suspend fun changePassword(login: String, oldPassword: String, newPassword: String): ChangePasswordResult
 }

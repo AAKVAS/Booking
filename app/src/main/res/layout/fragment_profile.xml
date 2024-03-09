@@ -36,13 +36,24 @@
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ListView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/padding_medium"
+        android:text="История бронирований пользователя"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/topLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+<!--    <ListView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_margin="@dimen/padding_medium"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/topLayout"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,13 +13,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.booking.MainActivity
 import com.example.booking.R
-import com.example.booking.auth.data.entity.UserDetails
+import com.example.booking.auth.domain.model.UserDetails
 import com.example.booking.common.ui.showDatePicker
 import com.example.booking.common.utils.TextInputDialog
 import com.example.booking.common.utils.toStringDate
+import com.example.booking.databinding.DialogChangePasswordBinding
 import com.example.booking.databinding.FragmentSettingsBinding
+import com.example.booking.profile.domain.model.ChangePasswordResult
 import com.example.booking.profile.ui.viewModel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -87,6 +90,7 @@ class SettingsFragment : Fragment() {
                 launch { viewModel.userDetails.collect(::onUserDetailsChanged) }
                 launch { viewModel.detailsSavedResult.collect(::onDetailsSaved) }
                 launch { viewModel.logoutResult.collect(::onLogout) }
+                launch { viewModel.changePasswordResult.collect(::onChangePassword) }
             }
         }
     }
@@ -101,7 +105,7 @@ class SettingsFragment : Fragment() {
 
     private fun onDetailsSaved(result: Result<Unit>) {
         if (result.isSuccess) {
-            Toast.makeText(requireContext(), R.string.success_saved, Toast.LENGTH_LONG)
+            Toast.makeText(requireContext(), R.string.success_saved, Toast.LENGTH_LONG).show()
         } else {
             with(AlertDialog.Builder(requireContext())) {
                 setTitle(R.string.error_happen)
@@ -116,16 +120,48 @@ class SettingsFragment : Fragment() {
             (requireActivity() as MainActivity).navController
                 .navigate(R.id.action_settingsFragment_to_loginFragment)
         } else {
-            with(AlertDialog.Builder(requireContext())) {
-                setTitle(R.string.error_happen)
-                setMessage(R.string.logout_failed)
-                show()
+            showNotSavedAlertDialog()
+        }
+    }
+
+    private fun onChangePassword(changePasswordResult: ChangePasswordResult) {
+        when(changePasswordResult) {
+            is ChangePasswordResult.Success -> {
+                Toast.makeText(requireContext(), R.string.success_saved, Toast.LENGTH_LONG).show()
+            }
+            is ChangePasswordResult.WrongOldPassword -> {
+                with(AlertDialog.Builder(requireContext())) {
+                    setMessage(R.string.wrong_old)
+                    show()
+                }
+            }
+            is ChangePasswordResult.Failure -> {
+                showNotSavedAlertDialog()
             }
         }
     }
 
     private fun changePassword() {
+        val binding: DialogChangePasswordBinding = DialogChangePasswordBinding.inflate(layoutInflater)
+        val alertDialog = AlertDialog.Builder(requireContext())
+            .setView(binding.root)
+            .setPositiveButton(getString(R.string.ok)) { _, _ ->
+                val oldPassword = binding.teNewPassword.editText!!.text.toString()
+                val newPassword = binding.teNewPassword.editText!!.text.toString()
+                viewModel.changePassword(oldPassword, newPassword)
+            }
+            .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
+            .create()
 
+        alertDialog.show()
+    }
+
+    private fun showNotSavedAlertDialog() {
+        with(AlertDialog.Builder(requireContext())) {
+            setTitle(R.string.error_happen)
+            setMessage(R.string.logout_failed)
+            show()
+        }
     }
 
     companion object {

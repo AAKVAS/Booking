@@ -1,4 +1,4 @@
-package com.example.booking.auth.data.entity
+package com.example.booking.auth.domain.model
 
 /**
  * Результат попытки входа в систему

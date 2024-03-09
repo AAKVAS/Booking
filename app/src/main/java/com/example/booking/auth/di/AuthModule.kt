@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.booking.auth.data.datasource.CloudLoginDatasource
 import com.example.booking.auth.data.datasource.CloudLoginDatasourceImpl
 import com.example.booking.auth.data.datasource.LocalLoginDatasource
-import com.example.booking.auth.data.datasource.LocalLocalLoginDatasourceImpl
+import com.example.booking.auth.data.datasource.LocalLoginDatasourceImpl
 import com.example.booking.auth.data.repository.LoginRepositoryImpl
 import com.example.booking.auth.domain.repository.LoginRepository
 import dagger.Binds
@@ -28,7 +28,7 @@ object LoginDataModule {
     @Singleton
     @Provides
     fun provideLocalLoginDatastore(@ApplicationContext context: Context): LocalLoginDatasource
-        = LocalLocalLoginDatasourceImpl(context)
+        = LocalLoginDatasourceImpl(context)
 
     @Singleton
     @Provides

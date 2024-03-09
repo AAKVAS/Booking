@@ -1,9 +1,10 @@
 package com.example.booking.auth.data.datasource
 
-import com.example.booking.auth.data.entity.LoginResult
-import com.example.booking.auth.data.entity.RegisterResult
-import com.example.booking.auth.data.entity.UserDetails
+import com.example.booking.auth.domain.model.LoginResult
+import com.example.booking.auth.domain.model.RegisterResult
+import com.example.booking.auth.domain.model.UserDetails
 import com.example.booking.auth.domain.model.RegistrationDetails
+import com.example.booking.profile.domain.model.ChangePasswordResult
 
 /**
  * Реализация источника данных для аутентификации с backend'a
@@ -34,6 +35,14 @@ class CloudLoginDatasourceImpl : CloudLoginDatasource {
 
     override suspend fun saveUserDetails(userDetails: UserDetails): Result<Unit> {
         return Result.success(Unit)
+    }
+
+    override suspend fun changePassword(
+        login: String,
+        oldPassword: String,
+        newPassword: String
+    ): ChangePasswordResult {
+        return ChangePasswordResult.Success
     }
 
     companion object {

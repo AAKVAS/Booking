@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.booking.MainActivity
 import com.example.booking.R
-import com.example.booking.auth.data.entity.UserDetails
+import com.example.booking.auth.domain.model.UserDetails
 import com.example.booking.databinding.FragmentProfileBinding
 import com.example.booking.profile.ui.viewModel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint

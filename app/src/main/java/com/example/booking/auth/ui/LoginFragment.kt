@@ -72,7 +72,7 @@ class LoginFragment : Fragment() {
 
     private fun onLoggedEvent(logged: Boolean) {
         if (logged) {
-            navToCatalogScreen()
+            navToCatalogAfterLogin()
         } else {
             showWrongDetailsMessage()
         }
@@ -89,6 +89,11 @@ class LoginFragment : Fragment() {
     private fun navToCatalogScreen() {
         (requireActivity() as MainActivity).navController
             .navigate(R.id.action_loginFragment_to_serviceListFragment)
+    }
+
+    private fun navToCatalogAfterLogin() {
+        (requireActivity() as MainActivity).navController
+            .navigate(R.id.action_serviceListFragment_root)
     }
 
     private fun navToRegisterScreen() {

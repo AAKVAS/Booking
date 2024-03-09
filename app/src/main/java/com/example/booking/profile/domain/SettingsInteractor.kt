@@ -1,7 +1,8 @@
 package com.example.booking.profile.domain
 
-import com.example.booking.auth.data.entity.UserDetails
+import com.example.booking.auth.domain.model.UserDetails
 import com.example.booking.auth.domain.repository.LoginRepository
+import com.example.booking.profile.domain.model.ChangePasswordResult
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -34,5 +35,12 @@ class SettingsInteractor @Inject constructor(
         return runCatching {
             loginRepository.logout()
         }
+    }
+
+    /**
+     * Изменить пароль
+     */
+    suspend fun changePassword(oldPassword: String, newPassword: String): ChangePasswordResult {
+        return loginRepository.changePassword(oldPassword, newPassword)
     }
 }

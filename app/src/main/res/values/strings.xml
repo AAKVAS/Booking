@@ -22,6 +22,8 @@
     <string name="repeat_password">Повторите пароль</string>
     <string name="wrong_details">Неверные данные для входа!</string>
     <string name="change_password">Изменить пароль</string>
+    <string name="old_password">Старый пароль</string>
+    <string name="new_password">Новый пароль</string>
     <string name="logout">Выйти</string>
 
     <string name="need_push">Уведомлять о предстоящих забронированных событиях</string>
@@ -39,4 +41,8 @@
     <string name="error_happen">Произошла ошибка</string>
     <string name="data_not_saved">Не удалось сохранить данные</string>
     <string name="logout_failed">Не удалось выйти из аккаунта</string>
+    <string name="wrong_old">Неверно введён старый пароль</string>
+
+    <string name="loading_error">Не удалось загрузить данные</string>
+    <string name="retry">Попробовать снова</string>
 </resources>

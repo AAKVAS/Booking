@@ -2,17 +2,14 @@ package com.example.booking.profile.ui.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.booking.auth.data.entity.UserDetails
-import com.example.booking.profile.domain.ProfileInteractor
+import com.example.booking.auth.domain.model.UserDetails
 import com.example.booking.profile.domain.SettingsInteractor
+import com.example.booking.profile.domain.model.ChangePasswordResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -43,6 +40,14 @@ class SettingsViewModel @Inject constructor(
 
     private val _detailsSavedResult: MutableSharedFlow<Result<Unit>> = MutableSharedFlow()
 
+    private val _changePasswordResult: MutableSharedFlow<ChangePasswordResult> = MutableSharedFlow()
+
+    /**
+     * Результаты попытки изменения пароля
+     */
+    val changePasswordResult: Flow<ChangePasswordResult>
+        get() = _changePasswordResult
+
     /**
      * Результат попытки сохранить данные аккаунта
      */
@@ -72,6 +77,15 @@ class SettingsViewModel @Inject constructor(
     fun logout() {
         viewModelScope.launch(Dispatchers.IO) {
             _logoutResult.emit(interactor.logout())
+        }
+    }
+
+    /**
+     * Изменить пароль
+     */
+    fun changePassword(oldPassword: String, newPassword: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _changePasswordResult.emit(interactor.changePassword(oldPassword, newPassword))
         }
     }
 }

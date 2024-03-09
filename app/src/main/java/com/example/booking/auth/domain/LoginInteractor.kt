@@ -1,7 +1,7 @@
 package com.example.booking.auth.domain
 
-import com.example.booking.auth.data.entity.LoginResult
-import com.example.booking.auth.data.entity.RegisterResult
+import com.example.booking.auth.domain.model.LoginResult
+import com.example.booking.auth.domain.model.RegisterResult
 import com.example.booking.auth.domain.model.LoginDetails
 import com.example.booking.auth.domain.model.RegistrationDetails
 import com.example.booking.auth.domain.repository.LoginRepository
@@ -27,6 +27,6 @@ class LoginInteractor @Inject constructor(
     }
 
     companion object {
-        const val UNEXPECTED_EXCEPTION = "Непридвиденная ошибка при попытке регистрации"
+        const val UNEXPECTED_EXCEPTION = "Непредвиденная ошибка при попытке регистрации"
     }
 }

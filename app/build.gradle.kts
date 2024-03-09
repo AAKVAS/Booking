@@ -3,7 +3,9 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
     id("com.google.dagger.hilt.android")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -43,7 +45,7 @@ android {
 
 dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -55,12 +57,12 @@ dependencies {
     ksp("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
 
-    val hiltVersion = "2.48.1"
+    val hiltVersion = "2.49"
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
-    kapt("androidx.hilt:hilt-compiler:1.1.0")
 
-    val hiltCompilerVersion = "1.1.0"
+    val hiltCompilerVersion = "1.2.0"
+    kapt("androidx.hilt:hilt-compiler:${hiltCompilerVersion}")
     ksp("androidx.hilt:hilt-compiler:${hiltCompilerVersion}")
     implementation("androidx.hilt:hilt-navigation-compose:${hiltCompilerVersion}")
     implementation("androidx.hilt:hilt-work:${hiltCompilerVersion}")
@@ -75,10 +77,34 @@ dependencies {
 
     implementation("com.google.android.material:material:1.11.0")
 
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
-    api("androidx.navigation:navigation-fragment-ktx:2.7.6")
+    val navVersion = "2.7.7"
+    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
+    api("androidx.navigation:navigation-fragment-ktx:$navVersion")
 
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    val pagingVersion = "3.2.1"
+    implementation("androidx.paging:paging-runtime-ktx:$pagingVersion")
+
+    val retrofitVersion = "2.9.0"
+    implementation ("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.7.2")
+    implementation ("com.squareup.retrofit2:converter-gson:$retrofitVersion")
+    implementation ("com.squareup.retrofit2:converter-scalars:$retrofitVersion")
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+    implementation ("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.11.0")
+
+
+    implementation ("com.google.code.gson:gson:2.9.0")
+    implementation ("com.google.code.gson:gson:2.9.0")
+
+    testImplementation ("io.mockk:mockk:1.9.3")
+    testImplementation(platform("org.junit:junit-bom:5.10.2"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0")
+    testRuntimeOnly("net.bytebuddy:byte-buddy:1.14.12")
 }
 
 kapt {

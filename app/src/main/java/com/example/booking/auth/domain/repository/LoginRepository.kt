@@ -1,10 +1,11 @@
 package com.example.booking.auth.domain.repository
 
-import com.example.booking.auth.data.entity.LoginResult
-import com.example.booking.auth.data.entity.RegisterResult
-import com.example.booking.auth.data.entity.UserDetails
+import com.example.booking.auth.domain.model.LoginResult
+import com.example.booking.auth.domain.model.RegisterResult
+import com.example.booking.auth.domain.model.UserDetails
 import com.example.booking.auth.domain.model.LoginDetails
 import com.example.booking.auth.domain.model.RegistrationDetails
+import com.example.booking.profile.domain.model.ChangePasswordResult
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -36,4 +37,9 @@ interface LoginRepository {
      * Выйти из аккаунта
      */
     suspend fun logout()
+
+    /**
+     * Изменить пароль
+     */
+    suspend fun changePassword(oldPassword: String, newPassword: String): ChangePasswordResult
 }

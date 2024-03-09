@@ -1,6 +1,6 @@
 package com.example.booking.auth.data.datasource
 
-import com.example.booking.auth.data.entity.UserDetails
+import com.example.booking.auth.domain.model.UserDetails
 import kotlinx.coroutines.flow.Flow
 
 /**

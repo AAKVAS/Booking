@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.booking.auth.data.entity.UserDetails
+import com.example.booking.auth.domain.model.UserDetails
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.map
 /**
  * Реализация локального репозитория для аутентификации
  */
-class LocalLocalLoginDatasourceImpl(private val context: Context)
+class LocalLoginDatasourceImpl(private val context: Context)
 : LocalLoginDatasource {
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = PREFERENCE_NAME)
 
