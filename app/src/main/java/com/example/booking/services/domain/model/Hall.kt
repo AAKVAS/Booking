@@ -11,4 +11,4 @@ data class Hall(
     val id: Long,
     val title: String,
     val places: List<Place>
-)
+) : java.io.Serializable

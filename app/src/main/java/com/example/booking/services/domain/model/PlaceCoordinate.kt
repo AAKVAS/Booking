@@ -11,4 +11,4 @@ data class PlaceCoordinate(
     val id: Long,
     val xPosition: Int,
     val yPosition: Int
-)
+) : java.io.Serializable

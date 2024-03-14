@@ -38,16 +38,26 @@ class CatalogInteractor @Inject constructor(
         return serviceRepository.getServices(searchParams)
     }
 
+    /**
+     * Возвращает информацию о филиале заведения
+     */
+    suspend fun getServiceFlow(serviceId: Long): Result<Service> {
+        val userLogin: String = getUserLogin()
+        return serviceRepository.getServiceDetails(userLogin, serviceId)
+    }
+
+    /**
+     * Изменяет статус избранности заведения
+     */
+    suspend fun setServiceFavorite(serviceId: Long, favorite: Boolean) {
+        serviceRepository.setServiceFavorite(getUserLogin(), serviceId, favorite)
+    }
+
     private suspend fun getUserLogin(): String {
         return if (loginRepository.isUserLogged()) {
             loginRepository.getUserDetails().first().login
         } else {
             ""
         }
-    }
-
-    suspend fun getServiceFlow(serviceId: Long): Result<Service> {
-        val userLogin: String = getUserLogin()
-        return serviceRepository.getServiceDetails(userLogin, serviceId)
     }
 }

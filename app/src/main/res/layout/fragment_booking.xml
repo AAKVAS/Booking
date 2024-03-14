@@ -1,14 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fillViewport="true"
+xmlns:tools="http://schemas.android.com/tools"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+tools:context=".bookings.ui.BookingFragment">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".bookings.ui.BookingFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ImageView
+        android:id="@+id/backgroundImg"
+        android:scaleType="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="@dimen/service_background_height"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/textViewServiceTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_medium"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/backgroundImg"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Янки" />
+
+    <TextView
+        android:id="@+id/textViewHallTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewServiceTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Зал 1" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/bookingDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/choose_date"
+        android:layout_margin="@dimen/padding_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewHallTitle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="false"
+            android:paddingVertical="@dimen/padding_small"
+            android:clickable="false"
+            android:inputType="none" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/timeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bookingDate">
+
+        <TextView
+            android:id="@+id/textViewStartTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/textViewEndTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/end"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/textViewStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_small"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewStartTitle"
+            tools:text="00:00" />
+
+        <TextView
+            android:id="@+id/textViewEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_small"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="end"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewEndTitle"
+            tools:text="00:00" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/padding_medium"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/timeLayout"
+        app:layout_constraintBottom_toTopOf="@id/buttonBook">
+
+        <com.example.booking.common.ui.view.ScrollablePlacesView
+            android:id="@+id/placesView"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" />
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/buttonBook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/book"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

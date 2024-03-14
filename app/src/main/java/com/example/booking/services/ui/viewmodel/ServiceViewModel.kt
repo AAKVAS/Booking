@@ -1,7 +1,7 @@
 package com.example.booking.services.ui.viewmodel
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.booking.common.data.LoadingState
 import com.example.booking.services.domain.CatalogInteractor
@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-@HiltViewModel(assistedFactory = ServiceViewModel.ServiceViewModelFactory::class)
 class ServiceViewModel @AssistedInject constructor(
     @Assisted val serviceId: Long,
     private val interactor: CatalogInteractor
@@ -28,6 +27,9 @@ class ServiceViewModel @AssistedInject constructor(
 
     private val _serviceFlow: MutableStateFlow<LoadingState<Service>> = MutableStateFlow(LoadingState.Loading)
     val serviceFlow: StateFlow<LoadingState<Service>> = _serviceFlow.asStateFlow()
+
+    private val requireService: Service
+        get() = (_serviceFlow.value as LoadingState.Success<Service>).body
 
     init {
         viewModelScope.launch {
@@ -42,4 +44,25 @@ class ServiceViewModel @AssistedInject constructor(
         }
     }
 
+    fun changeFavoriteStatus() {
+        viewModelScope.launch {
+            val service = requireService
+            val favorite = !service.favorite
+            interactor.setServiceFavorite(serviceId, favorite)
+            _serviceFlow.update {
+                LoadingState.Success(service.copy(favorite = favorite))
+            }
+        }
+    }
+
+    companion object {
+        @Suppress("UNCHECKED_CAST")
+        fun provideFactory(factory: ServiceViewModelFactory, serviceId: Long) : ViewModelProvider.Factory {
+            return object: ViewModelProvider.Factory {
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    return factory.create(serviceId) as T
+                }
+            }
+        }
+    }
 }

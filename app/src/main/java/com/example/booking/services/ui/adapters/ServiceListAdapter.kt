@@ -2,18 +2,17 @@ package com.example.booking.services.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.booking.R
+import com.example.booking.common.utils.createDiffCallback
 import com.example.booking.databinding.LayoutServiceItemBinding
 import com.example.booking.services.domain.model.Service
 
 
 class ServiceListAdapter(
-    private val onItemClick: (service: Service) -> Unit = {},
-    private val onStarClick: (service: Service) -> Unit = {}
+    private val onItemClick: (service: Service) -> Unit = {}
 ) : PagingDataAdapter<Service, ServiceListAdapter.ServiceViewHolder>(COMPARATOR) {
     inner class ServiceViewHolder(
         private val binding: LayoutServiceItemBinding
@@ -23,17 +22,12 @@ class ServiceListAdapter(
                 card.setOnClickListener {
                     onItemClick.invoke(service)
                 }
-                //ivServiceIcon.src = service.imageLink
-                tvTitle.text = service.title
-                tvDescription.text = service.description
-                if (service.favorite) {
-                    star.setBackgroundResource(R.drawable.filled_star)
-                } else {
-                    star.setBackgroundResource(R.drawable.star)
+                imageViewServicePreview.load(service.imageLink) {
+                    crossfade(true)
+                    placeholder(R.drawable.loading_img)
                 }
-                star.setOnClickListener {
-                    onStarClick(service)
-                }
+                textViewTitle.text = service.title
+                textViewDescription.text = service.description
             }
         }
     }
@@ -49,14 +43,9 @@ class ServiceListAdapter(
     }
 
     companion object {
-        private val COMPARATOR = object : DiffUtil.ItemCallback<Service>() {
-            override fun areItemsTheSame(oldItem: Service, newItem: Service): Boolean {
-                return oldItem == newItem
-            }
-
-            override fun areContentsTheSame(oldItem: Service, newItem: Service): Boolean {
-                return oldItem == newItem
-            }
-        }
+        private val COMPARATOR = createDiffCallback<Service>(
+            areItemsTheSame = { oldItem, newItem -> oldItem == newItem },
+            areContentsTheSame = { oldItem, newItem -> oldItem == newItem }
+        )
     }
 }

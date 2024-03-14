@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.example.booking.common.data.LoadingState
 import com.example.booking.services.domain.CatalogInteractor
 import com.example.booking.services.domain.model.Service
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -57,13 +57,12 @@ dependencies {
     ksp("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
 
-    val hiltVersion = "2.49"
+    val hiltVersion = "2.48.1"
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
     val hiltCompilerVersion = "1.2.0"
     kapt("androidx.hilt:hilt-compiler:${hiltCompilerVersion}")
-    ksp("androidx.hilt:hilt-compiler:${hiltCompilerVersion}")
     implementation("androidx.hilt:hilt-navigation-compose:${hiltCompilerVersion}")
     implementation("androidx.hilt:hilt-work:${hiltCompilerVersion}")
 
@@ -95,7 +94,6 @@ dependencies {
     implementation ("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
     implementation ("com.squareup.okhttp3:okhttp:4.11.0")
 
-
     implementation ("com.google.code.gson:gson:2.9.0")
     implementation ("com.google.code.gson:gson:2.9.0")
 
@@ -105,6 +103,8 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0")
     testRuntimeOnly("net.bytebuddy:byte-buddy:1.14.12")
+
+    implementation("io.coil-kt:coil:2.6.0")
 }
 
 kapt {

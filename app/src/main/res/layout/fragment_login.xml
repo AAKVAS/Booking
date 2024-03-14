@@ -67,7 +67,7 @@
         app:layout_constraintBottom_toTopOf="@id/btn_catalog"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:hint="@string/register"
+        android:hint="@string/registration"
         />
 
     <com.google.android.material.button.MaterialButton

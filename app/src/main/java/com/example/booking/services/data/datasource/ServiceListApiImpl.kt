@@ -16,5 +16,13 @@ interface ServiceListApiImpl : ServiceListAPI {
         @Query("size") size: Int
     ): List<Service>
 
-    override suspend fun getServiceDetails(userLogin: String, serviceId: Long): Service
+    @GET("service")
+    override suspend fun getServiceDetails(
+        @Query("userLogin") userLogin: String,
+        @Query("serviceId") serviceId: Long
+    ): Service
+
+//    override suspend fun setServiceFavorite(userLogin: String, serviceId: Long, favorite: Boolean) {
+//
+//    }
 }

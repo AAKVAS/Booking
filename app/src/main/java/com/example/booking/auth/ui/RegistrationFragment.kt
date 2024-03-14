@@ -22,6 +22,8 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RegistrationFragment : Fragment() {
+
+    //TODO: поля почты и номера телефона
     private lateinit var binding: FragmentRegistrationBinding
     private val viewModel: RegistrationViewModel by viewModels()
 
@@ -109,11 +111,6 @@ class RegistrationFragment : Fragment() {
             .navigate(R.id.action_registrationFragment_to_loginFragment)
     }
 
-    private fun navToCatalog() {
-        (requireActivity() as MainActivity).navController
-            .navigate(R.id.action_registrationFragment_to_serviceListFragment)
-    }
-
     private fun navToCatalogAfterRegister() {
         (requireActivity() as MainActivity).navController
             .navigate(R.id.action_registrationFragment_to_serviceListFragment_root)
@@ -121,6 +118,14 @@ class RegistrationFragment : Fragment() {
 
     private fun showNotRegisteredMessage() {
         Toast.makeText(requireActivity(), R.string.not_registered, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showThereAreEmptyFieldsMessage() {
+        TODO("Надо сделать проверку, что все поля заполнены")
+    }
+
+    private fun showPasswordMismatchMessage() {
+        TODO("Надо сделать проверку, что пароли совпадают")
     }
 
     companion object {

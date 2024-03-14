@@ -14,54 +14,40 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/iv_service_icon"
-            android:layout_margin="@dimen/padding_medium"
-            android:layout_height="@dimen/service_icon_size"
-            android:layout_width="@dimen/service_icon_size"
+            android:id="@+id/imageViewServicePreview"
+            android:layout_height="@dimen/service_preview_height"
+            android:layout_width="match_parent"
+            android:scaleType="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             />
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/textViewTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/padding_medium"
+            android:layout_marginVertical="@dimen/padding_small"
+            android:layout_marginHorizontal="@dimen/padding_medium"
             android:fontFamily="sans-serif-medium"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@id/star"
-            app:layout_constraintStart_toEndOf="@id/iv_service_icon"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageViewServicePreview"
             tools:text="Собака на пене" />
 
-        <ImageButton
-            android:id="@+id/star"
-            android:layout_width="@dimen/star_size"
-            android:layout_height="@dimen/star_size"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/star"
-            android:layout_margin="@dimen/padding_small"
-            />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="iv_service_icon,tv_title"/>
-
         <TextView
-            android:id="@+id/tv_description"
+            android:id="@+id/textViewDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/padding_small"
+            android:layout_marginVertical="@dimen/padding_small"
+            android:layout_marginHorizontal="@dimen/padding_medium"
             android:fontFamily="sans-serif-light"
             android:ellipsize="end"
             android:maxLines="2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/barrier"
+            app:layout_constraintTop_toBottomOf="@id/textViewTitle"
             tools:text="Описание. Очень много текста.
             Lorem ipsum.
             In his house at R’lyeh dead Cthulhu waits dreaming.

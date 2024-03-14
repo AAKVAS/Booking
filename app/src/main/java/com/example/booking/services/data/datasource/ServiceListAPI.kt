@@ -12,4 +12,8 @@ interface ServiceListAPI {
     ): List<Service>
 
     suspend fun getServiceDetails(userLogin: String, serviceId: Long): Service
+
+//    suspend fun setServiceFavorite(userLogin: String, serviceId: Long, favorite: Boolean) {
+//
+//    }
 }

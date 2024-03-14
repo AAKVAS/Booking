@@ -9,5 +9,7 @@ import kotlinx.serialization.Serializable
 data class Place(
     val uid: String,
     val id: Long,
-    val coordinates: List<PlaceCoordinate>
-)
+    val coordinates: List<PlaceCoordinate>,
+    val isFree: Boolean,
+    val peopleAmount: Int
+) : java.io.Serializable

@@ -16,7 +16,7 @@ interface CloudLoginDatasource {
      */
     suspend fun login(login: String, password: String): LoginResult
     /**
-     * Попытка зарегестрировать аккаунт, возвращает [RegisterResult.Success] если удалось создать аккаунт.
+     * Попытка зарегистрировать аккаунт, возвращает [RegisterResult.Success] если удалось создать аккаунт.
      * Иначе [RegisterResult.Failure]
      */
     suspend fun register(registrationDetails: RegistrationDetails): RegisterResult

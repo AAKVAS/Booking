@@ -1,11 +1,11 @@
 package com.example.booking.auth.domain.model
 
 /**
- * Результат попытки зарегестрировать аккаунт
+ * Результат попытки зарегистрировать аккаунт
  */
 sealed interface RegisterResult {
     /**
-     * Успешно зарегестрирован аккаунт. Содержит данные о зарегестрированном пользователе
+     * Успешно зарегистрирован аккаунт. Содержит данные о зарегистрированном пользователе
      */
     data class Success(val userDetails: UserDetails): RegisterResult
 

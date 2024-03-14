@@ -14,5 +14,7 @@
     <dimen name="star_size">32dp</dimen>
 
     <dimen name="service_background_height">168dp</dimen>
+    <dimen name="date_input_width">200dp</dimen>
+    <dimen name="service_preview_height">128dp</dimen>
 
 </resources>

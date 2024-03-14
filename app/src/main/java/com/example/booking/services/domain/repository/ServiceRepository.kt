@@ -19,4 +19,9 @@ interface ServiceRepository {
      * Получить сведения об услуге по [serviceId]
      */
     suspend fun getServiceDetails(userLogin: String, serviceId: Long): Result<Service>
+
+    /**
+     * Изменить статус избранности сервиса
+     */
+    suspend fun setServiceFavorite(userLogin: String, serviceId: Long, favorite: Boolean)
 }

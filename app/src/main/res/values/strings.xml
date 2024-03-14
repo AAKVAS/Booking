@@ -6,25 +6,28 @@
     <string name="catalog">Каталог</string>
     <string name="favorite">Избранное</string>
     <string name="city">Город</string>
-    <string name="book">Забронировать</string>
 
     <string name="ok">Ок</string>
     <string name="cancel">Отмена</string>
 
     <string name="login">Логин</string>
     <string name="log_in">Войти</string>
-    <string name="register">Зарегестрироваться</string>
+    <string name="entry">Вход</string>
+    <string name="register">Зарегистрироваться</string>
+    <string name="registration">Регистрация</string>
     <string name="lastname">Фамилия</string>
     <string name="firstname">Имя</string>
     <string name="phone_number">Номер телефона</string>
     <string name="birthday">Дата рождения</string>
     <string name="password">Пароль</string>
     <string name="repeat_password">Повторите пароль</string>
-    <string name="wrong_details">Неверные данные для входа!</string>
+    <string name="wrong_details">Неверные логин или пароль</string>
     <string name="change_password">Изменить пароль</string>
     <string name="old_password">Старый пароль</string>
     <string name="new_password">Новый пароль</string>
+    <string name="password_mismatch">Пароли не совпадают</string>
     <string name="logout">Выйти</string>
+    <string name="there_are_empty_fields">Заполнены не все поля</string>
 
     <string name="need_push">Уведомлять о предстоящих забронированных событиях</string>
     <string name="input_new_name">Введите новое имя</string>
@@ -35,13 +38,23 @@
     <string name="profile">Профиль</string>
     <string name="filter">Фильтр</string>
 
-    <string name="choose_date">Выберите дату</string>
-    <string name="not_registered">Не удалось зарегестрировать Ваш аккаунт!</string>
-    <string name="success_saved">Сохранено!</string>
+    <string name="success_booked">Успешно забронировано</string>
+    <string name="failure_booked">Не удалось забронировать место</string>
+    <string name="choose_free_place">Необходимо выбрать свободное место</string>
+    <string name="choose_date">Дата бронирования</string>
+    <string name="book">Забронировать</string>
+
+    <string name="not_registered">Не удалось зарегистрировать Ваш профиль</string>
+    <string name="success_saved">Сохранено</string>
     <string name="error_happen">Произошла ошибка</string>
     <string name="data_not_saved">Не удалось сохранить данные</string>
     <string name="logout_failed">Не удалось выйти из аккаунта</string>
     <string name="wrong_old">Неверно введён старый пароль</string>
+
+    <string name="start">Начало</string>
+    <string name="booking_start">Начальное время бронирования</string>
+    <string name="end">Конец</string>
+    <string name="booking_end">Конечное время бронирования</string>
 
     <string name="loading_error">Не удалось загрузить данные</string>
     <string name="retry">Попробовать снова</string>

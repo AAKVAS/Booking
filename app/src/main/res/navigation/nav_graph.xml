@@ -21,7 +21,10 @@
         android:id="@+id/bookingFragment"
         android:name="com.example.booking.bookings.ui.BookingFragment"
         android:label="fragment_booking"
-        tools:layout="@layout/fragment_booking" />
+        tools:layout="@layout/fragment_booking" >
+        <argument android:name="bookingServiceParam"
+            app:argType="com.example.booking.bookings.ui.model.BookingServiceParam" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.booking.auth.ui.LoginFragment"

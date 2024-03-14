@@ -29,6 +29,10 @@ class ServiceRepositoryImpl(
         }
     }
 
+    override suspend fun setServiceFavorite(userLogin: String, serviceId: Long, favorite: Boolean) {
+        //api.setServiceFavorite(userLogin, serviceId, favorite)
+    }
+
     companion object {
         private const val PAGE_SIZE = 10
     }
