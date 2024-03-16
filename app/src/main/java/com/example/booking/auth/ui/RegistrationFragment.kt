@@ -1,11 +1,11 @@
 package com.example.booking.auth.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -22,8 +22,6 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RegistrationFragment : Fragment() {
-
-    //TODO: поля почты и номера телефона
     private lateinit var binding: FragmentRegistrationBinding
     private val viewModel: RegistrationViewModel by viewModels()
 
@@ -77,7 +75,9 @@ class RegistrationFragment : Fragment() {
                 login = teLogin.editText!!.text.toString(),
                 password = tePassword.editText!!.text.toString(),
                 lastname = teLastname.editText!!.text.toString(),
-                firstname = teFirstname.editText!!.text.toString()
+                firstname = teFirstname.editText!!.text.toString(),
+                email = textEditEmail.editText!!.text.toString(),
+                phoneNumber = textEditPhoneNumber.editText!!.text.toString()
             )
         }
         viewModel.setRegistrationDetails(registrationDetails)
@@ -90,6 +90,8 @@ class RegistrationFragment : Fragment() {
             teBirthday.editText!!.setText(registrationDetails.birthday.toStringDate())
             teFirstname.editText!!.setText(registrationDetails.firstname)
             teLastname.editText!!.setText(registrationDetails.lastname)
+            textEditEmail.editText!!.setText(registrationDetails.email)
+            textEditPhoneNumber.editText!!.setText(registrationDetails.phoneNumber)
         }
         this.registrationDetails = registrationDetails
     }

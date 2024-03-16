@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">booking</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="catalog">Каталог</string>
     <string name="favorite">Избранное</string>
@@ -19,6 +17,7 @@
     <string name="firstname">Имя</string>
     <string name="phone_number">Номер телефона</string>
     <string name="birthday">Дата рождения</string>
+    <string name="email">Электронная почта</string>
     <string name="password">Пароль</string>
     <string name="repeat_password">Повторите пароль</string>
     <string name="wrong_details">Неверные логин или пароль</string>
@@ -55,7 +54,11 @@
     <string name="booking_start">Начальное время бронирования</string>
     <string name="end">Конец</string>
     <string name="booking_end">Конечное время бронирования</string>
+    <string name="end_must_be_more_than_start">Время конца должно быть больше времени начала</string>
 
     <string name="loading_error">Не удалось загрузить данные</string>
+    <string name="service_is_unavailable">Сервис недоступен</string>
+    <string name="retry_later">Попробуйте позже</string>
     <string name="retry">Попробовать снова</string>
+    <string name="network_not_available">Нет доступа к сети</string>
 </resources>

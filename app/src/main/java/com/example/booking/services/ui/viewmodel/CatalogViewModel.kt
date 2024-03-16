@@ -4,19 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.booking.common.data.LoadingState
 import com.example.booking.services.domain.CatalogInteractor
 import com.example.booking.services.domain.model.Service
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -53,7 +49,7 @@ class CatalogViewModel @Inject constructor(
     /**
      * Инициирует поиск сервисов
      */
-    suspend fun search(searchPattern: String = "", cityId: Long = -1): Flow<PagingData<Service>> {
+    fun search(searchPattern: String = "", cityId: Long = -1): Flow<PagingData<Service>> {
         _searchPattern.update { searchPattern }
         _cityId.update { cityId }
         return interactor.getServices(_searchPattern.value, _cityId.value).cachedIn(viewModelScope)

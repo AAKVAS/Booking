@@ -4,8 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.view.MotionEvent
-import android.view.ScaleGestureDetector
 import android.view.View
 import com.example.booking.R
 import com.example.booking.services.domain.model.Place
@@ -17,34 +15,12 @@ open class PlacesView(context: Context, attrs: AttributeSet?) : View(context, at
         style = Paint.Style.FILL
     }
 
-    private var height: Int = 0
-    private var width: Int = 0
-
     var places: List<Place> = listOf()
         set(value) {
             field = value
             requestLayout()
             invalidate()
         }
-
-//    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-//        height = places.flatMap { place ->
-//            place.coordinates.map {
-//                it.yPosition
-//            }
-//        }.max()
-//        width = places.flatMap { place ->
-//            place.coordinates.map {
-//                it.xPosition
-//            }
-//        }.max()
-//        setMeasuredDimension(
-//            (width + 1) * COORDINATE_SIZE,
-//            (width + 1) * COORDINATE_SIZE,
-//        )
-//    }
-
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)

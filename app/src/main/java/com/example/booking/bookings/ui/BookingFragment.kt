@@ -1,31 +1,27 @@
 package com.example.booking.bookings.ui
 
+import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import coil.load
+import com.example.booking.MainActivity
 import com.example.booking.R
 import com.example.booking.bookings.domain.model.Booking
-import com.example.booking.bookings.ui.model.BookingServiceParam
+import com.example.booking.bookings.ui.model.BookingValidationStatus
 import com.example.booking.bookings.ui.viewModel.BookingViewModel
-import com.example.booking.common.utils.currentDay
 import com.example.booking.common.utils.millisToDate
 import com.example.booking.common.utils.timeToInt
 import com.example.booking.common.utils.toTextTime
 import com.example.booking.common.utils.toTime
 import com.example.booking.databinding.FragmentBookingBinding
-import com.example.booking.databinding.FragmentServiceBinding
-import com.example.booking.services.domain.model.Hall
-import com.example.booking.services.ui.ServiceFragmentArgs
-import com.example.booking.services.ui.adapters.HallsRecyclerAdapter
-import com.example.booking.services.ui.viewmodel.ServiceViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -66,9 +62,8 @@ class BookingFragment : Fragment() {
             textViewServiceTitle.text = args.bookingServiceParam.title
             textViewHallTitle.text =  args.bookingServiceParam.hall.title
             placesView.places = args.bookingServiceParam.hall.places
-            backgroundImg.load(args.bookingServiceParam.imageLink) {
-                crossfade(true)
-                placeholder(R.drawable.loading_img)
+            placesView.setOnPlaceChanged {
+                viewModel.updateBookingState(viewModel.bookingStateFlow.value.copy(place = it))
             }
             textViewStart.setOnClickListener {
                 val booking = viewModel.bookingStateFlow.value
@@ -104,6 +99,14 @@ class BookingFragment : Fragment() {
                     viewModel.updateBookingState(booking.copy(date = it))
                 }
             }
+            buttonBook.setOnClickListener {
+                val status = viewModel.validateBooking()
+                if (status != BookingValidationStatus.VALID) {
+                    showNotValidMessage(status)
+                } else {
+                    viewModel.bookPlace()
+                }
+            }
         }
     }
 
@@ -111,6 +114,7 @@ class BookingFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 launch { viewModel.bookingStateFlow.collect(::onBookingChanged)}
+                launch { viewModel.bookingResultFlow.collect(::onBookingResult) }
             }
         }
     }
@@ -120,6 +124,14 @@ class BookingFragment : Fragment() {
             textViewStart.text = booking.startedAt.toTextTime()
             textViewEnd.text = booking.endedAt.toTextTime()
             bookingDate.editText!!.setText(booking.date.millisToDate())
+        }
+    }
+
+    private fun onBookingResult(result: Result<Unit>) {
+        if (result.isSuccess) {
+            showBookingSuccessMessage()
+        } else {
+            showBookingFailureMessage()
         }
     }
 
@@ -158,6 +170,53 @@ class BookingFragment : Fragment() {
         }
 
         datePicker.show(childFragmentManager, DATE_PICKER_TAG)
+    }
+
+    private fun showNotValidMessage(status: BookingValidationStatus) {
+        val builder = AlertDialog.Builder(context)
+
+        val message = when(status) {
+            BookingValidationStatus.PLACE_NOT_SELECTED -> R.string.choose_free_place
+            BookingValidationStatus.WRONG_TIME -> R.string.end_must_be_more_than_start
+            else -> -1
+        }
+
+        builder.setMessage(message)
+            .setPositiveButton(R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+            }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun showBookingSuccessMessage() {
+        val builder = AlertDialog.Builder(context)
+
+        builder.setMessage(R.string.success_booked)
+            .setPositiveButton(R.string.ok) { dialog, _ ->
+                navToCatalog()
+            }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun navToCatalog() {
+        (requireActivity() as MainActivity).navController
+            .navigate(R.id.action_bookingFragment_to_serviceListFragment)
+    }
+
+    private fun showBookingFailureMessage() {
+        val builder = AlertDialog.Builder(context)
+
+        builder.setMessage(R.string.failure_booked)
+            .setPositiveButton(R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+            }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
     companion object {

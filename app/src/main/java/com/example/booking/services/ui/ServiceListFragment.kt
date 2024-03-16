@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -17,15 +18,20 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.booking.MainActivity
 import com.example.booking.R
 import com.example.booking.common.utils.hideKeyboard
+import com.example.booking.common.utils.isNetworkAvailable
+import com.example.booking.common.utils.showNetworkNotAvailableMessage
 import com.example.booking.databinding.FragmentServiceListBinding
+import com.example.booking.services.domain.model.City
+import com.example.booking.services.domain.model.Hall
 import com.example.booking.services.ui.viewmodel.ServiceListViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
- * Фрагмент списка всех и избранных услуг
+ * Фрагмент списка всех и избранных заведений
  */
 @AndroidEntryPoint
 class ServiceListFragment : Fragment() {
@@ -34,6 +40,18 @@ class ServiceListFragment : Fragment() {
     private lateinit var pagerAdapter: ServiceListPagerAdapter
 
     private val viewModel: ServiceListViewModel by viewModels()
+
+    /**
+     * Id города, по которому необходимо искать филиалы заведений
+     */
+    val filterCityId: StateFlow<Long>
+        get() = viewModel.cityId
+
+    /**
+     * Строка для поиска филиалов заведений
+     */
+    val searchPattern: StateFlow<String>
+        get() = viewModel.searchPattern
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +65,16 @@ class ServiceListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupTopBar()
         subscribeToViewModel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val context = requireContext()
+        if (!context.isNetworkAvailable()) {
+            context.showNetworkNotAvailableMessage()
+        } else {
+            viewModel.checkServiceAvailable()
+        }
     }
 
     private fun setupTopBar() {
@@ -78,7 +106,8 @@ class ServiceListFragment : Fragment() {
     private fun subscribeToViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.isLogged.collect(::onLoggedChange)
+                launch { viewModel.isLogged.collect(::onLoggedChange) }
+                launch { viewModel.isServiceAvailable.collect(::serviceAvailabilityChanged) }
             }
         }
     }
@@ -86,6 +115,13 @@ class ServiceListFragment : Fragment() {
     private fun onLoggedChange(isLogged: Boolean) {
         binding.ivProfile.isVisible = isLogged
         setupTab()
+    }
+
+    private fun serviceAvailabilityChanged(available: Boolean) {
+        with(binding) {
+            includeServiceUnavailable.serviceUnavailableLayout.isVisible = !available
+            layoutContainer.isVisible = available
+        }
     }
 
     private fun setupTab() {
@@ -107,11 +143,24 @@ class ServiceListFragment : Fragment() {
     }
 
     private fun showFilters() {
+        val cities = viewModel.cities.value
+        var selectedIndex = cities.indexOfFirst { it.id == viewModel.cityId.value}
+        val items: Array<CharSequence> = cities.map { it.name }.toTypedArray()
 
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(R.string.city)
+        builder.setSingleChoiceItems(items, selectedIndex) { _, which ->
+            selectedIndex = which
+        }.setPositiveButton(R.string.ok) { _, _ ->
+            viewModel.updateCityId(cities[selectedIndex].id)
+        }.setNegativeButton(R.string.cancel) { _, _ -> }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private fun performSearch() {
-
+        viewModel.updateSearchPattern(binding.searchBar.text.toString())
     }
 
     private fun hideKeyboard() {

@@ -15,26 +15,38 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tv_lastname"
+            android:id="@+id/textViewLastnameTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/lastname"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewLastname"
             android:layout_width="wrap_content"
             app:layout_constrainedWidth="true"
             android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-medium"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/iv_edit_lastname"
+            app:layout_constraintTop_toBottomOf="@id/textViewLastnameTitle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/imageViewEditLastname"
             tools:text="Плотников" />
 
         <ImageView
-            android:id="@+id/iv_edit_lastname"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
+            android:id="@+id/imageViewEditLastname"
+            android:layout_width="@dimen/pen_size"
+            android:layout_height="@dimen/pen_size"
             android:layout_marginStart="@dimen/padding_small"
             android:src="@drawable/edit"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_lastname"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/textViewLastname"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -47,26 +59,39 @@
         app:layout_constraintTop_toBottomOf="@id/layout_lastname">
 
         <TextView
-            android:id="@+id/tv_firstname"
+            android:id="@+id/textViewFirstnameTitle"
             android:layout_width="wrap_content"
             app:layout_constrainedWidth="true"
             android:layout_height="wrap_content"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/iv_edit_firstname"
+            android:text="@string/firstname"
+            />
+
+        <TextView
+            android:id="@+id/textViewFirstname"
+            android:layout_width="wrap_content"
+            app:layout_constrainedWidth="true"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-medium"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewFirstnameTitle"
+            app:layout_constraintEnd_toEndOf="@id/imageViewEditFirstname"
             tools:text="Алексей" />
 
         <ImageView
-            android:id="@+id/iv_edit_firstname"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
+            android:id="@+id/imageViewEditFirstname"
+            android:layout_width="@dimen/pen_size"
+            android:layout_height="@dimen/pen_size"
             android:layout_marginStart="@dimen/padding_small"
             android:src="@drawable/edit"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_firstname"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/textViewFirstname"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -79,26 +104,40 @@
         app:layout_constraintTop_toBottomOf="@id/layout_firstname">
 
         <TextView
-            android:id="@+id/tv_birthday"
+            android:id="@+id/textViewBirthdayTitle"
             android:layout_width="wrap_content"
             app:layout_constrainedWidth="true"
             android:layout_height="wrap_content"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/iv_edit_birthday"
+            android:text="@string/birthday"
+            />
+
+        <TextView
+            android:id="@+id/textViewBirthday"
+            android:layout_width="wrap_content"
+            app:layout_constrainedWidth="true"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-medium"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewBirthdayTitle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/imageViewEditBirthday"
             tools:text="10.12.2003" />
 
         <ImageView
-            android:id="@+id/iv_edit_birthday"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
+            android:id="@+id/imageViewEditBirthday"
+            android:layout_width="@dimen/pen_size"
+            android:layout_height="@dimen/pen_size"
             android:layout_marginStart="@dimen/padding_small"
             android:src="@drawable/edit"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_birthday"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/textViewBirthday"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -110,7 +149,7 @@
         app:layout_constraintTop_toBottomOf="@id/layout_birthday">
 
         <TextView
-            android:id="@+id/tv_notification"
+            android:id="@+id/textViewNotification"
             android:layout_width="wrap_content"
             app:layout_constrainedWidth="true"
             android:layout_height="wrap_content"
@@ -118,35 +157,37 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/notification_switch" />
+            app:layout_constraintEnd_toEndOf="@id/notificationSwitch" />
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/notification_switch"
+            android:id="@+id/notificationSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding_small"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_notification"
+            app:layout_constraintStart_toEndOf="@id/textViewNotification"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/btn_change_password"
+        android:id="@+id/btnChangePassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/change_password"
-        android:layout_margin="@dimen/padding_medium"
+        android:layout_marginVertical="@dimen/padding_small"
+        android:layout_marginHorizontal="@dimen/padding_medium"
         app:layout_constraintTop_toBottomOf="@id/layout_notification"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btn_logout"
+        android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/logout"
-        android:layout_margin="@dimen/padding_medium"
-        app:layout_constraintTop_toBottomOf="@id/btn_change_password"
+        android:layout_marginVertical="@dimen/padding_small"
+        android:layout_marginHorizontal="@dimen/padding_medium"
+        app:layout_constraintTop_toBottomOf="@id/btnChangePassword"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

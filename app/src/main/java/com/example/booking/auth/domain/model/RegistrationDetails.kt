@@ -8,5 +8,7 @@ data class RegistrationDetails(
     val lastname: String = "",
     val firstname: String = "",
     val birthday: Long = 0,
+    val email: String = "",
+    val phoneNumber: String = "",
     val password: String = ""
 )

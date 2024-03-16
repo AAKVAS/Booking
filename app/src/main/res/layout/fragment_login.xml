@@ -49,29 +49,29 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_login"
+        android:id="@+id/btnLogin"
         android:layout_width="@dimen/medium_btn_width"
         android:layout_height="@dimen/btn_height"
         android:layout_margin="@dimen/padding_small"
-        app:layout_constraintBottom_toTopOf="@id/btn_register"
+        app:layout_constraintBottom_toTopOf="@id/btnRegister"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:hint="@string/log_in"
         />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_register"
+        android:id="@+id/btnRegister"
         android:layout_width="@dimen/medium_btn_width"
         android:layout_height="@dimen/btn_height"
         android:layout_margin="@dimen/padding_small"
-        app:layout_constraintBottom_toTopOf="@id/btn_catalog"
+        app:layout_constraintBottom_toTopOf="@id/btnCatalog"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:hint="@string/registration"
         />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_catalog"
+        android:id="@+id/btnCatalog"
         android:layout_width="@dimen/medium_btn_width"
         android:layout_height="@dimen/btn_height"
         android:layout_marginBottom="@dimen/padding_medium"

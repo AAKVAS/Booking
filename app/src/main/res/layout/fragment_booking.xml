@@ -11,16 +11,6 @@ tools:context=".bookings.ui.BookingFragment">
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/backgroundImg"
-        android:scaleType="center"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/service_background_height"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
-
     <TextView
         android:id="@+id/textViewServiceTitle"
         android:layout_width="0dp"
@@ -29,7 +19,7 @@ tools:context=".bookings.ui.BookingFragment">
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/backgroundImg"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="Янки" />
 

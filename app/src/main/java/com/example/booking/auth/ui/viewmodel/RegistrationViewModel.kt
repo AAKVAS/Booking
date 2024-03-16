@@ -2,8 +2,8 @@ package com.example.booking.auth.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.booking.auth.domain.model.RegisterResult
 import com.example.booking.auth.domain.LoginInteractor
+import com.example.booking.auth.domain.model.RegisterResult
 import com.example.booking.auth.domain.model.RegistrationDetails
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow

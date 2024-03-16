@@ -14,6 +14,14 @@ import kotlin.math.ceil
 
 
 class ScrollablePlacesView(context: Context, attrs: AttributeSet?) : PlacesView(context, attrs) {
+    var selectedPlace: Place? = null
+        private set
+
+    var _onPlaceChanged: (place: Place?) -> Unit = {}
+    public fun setOnPlaceChanged(block: ( place: Place?) -> Unit) {
+        _onPlaceChanged = block
+    }
+
     private var scaleFactor = 1.0f
 
     private var offsetX = 0f
@@ -28,6 +36,11 @@ class ScrollablePlacesView(context: Context, attrs: AttributeSet?) : PlacesView(
 
     private val greenPaint = Paint().apply {
         color = context.getColor(R.color.green)
+        style = Paint.Style.FILL
+    }
+
+    private val bluePaint = Paint().apply {
+        color = context.getColor(R.color.blue)
         style = Paint.Style.FILL
     }
 
@@ -50,8 +63,33 @@ class ScrollablePlacesView(context: Context, attrs: AttributeSet?) : PlacesView(
                 lastY = event.y
                 invalidate()
             }
+            MotionEvent.ACTION_UP -> {
+                if (event.eventTime - event.downTime <= CLICK_MILLIS) {
+                    onPlacesClick()
+                }
+            }
         }
         return true
+    }
+
+    private fun onPlacesClick() {
+        val scaledX: Float = (lastX - offsetX) / scaleFactor
+        val scaledY: Float = (lastY - offsetY) / scaleFactor
+        var place = places.firstOrNull { place ->
+            place.coordinates.any {
+                (scaledX / COORDINATE_SIZE >= it.xPosition) && (scaledX / COORDINATE_SIZE <= it.xPosition + 1)
+              && scaledY / COORDINATE_SIZE >= it.yPosition.toFloat() && scaledY / COORDINATE_SIZE <= it.yPosition + 1
+            } && place.isFree
+        }
+        if (place != null) {
+            if (selectedPlace != place) {
+                selectedPlace = place
+            } else {
+                selectedPlace = null
+            }
+            _onPlaceChanged(selectedPlace)
+            invalidate()
+        }
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -99,7 +137,9 @@ class ScrollablePlacesView(context: Context, attrs: AttributeSet?) : PlacesView(
     }
 
     private fun Place.placeColor(): Paint {
-        return if (this.isFree) {
+        return if (this == selectedPlace) {
+            bluePaint
+        } else if (this.isFree) {
             greenPaint
         } else {
             grayPaint
@@ -136,5 +176,6 @@ class ScrollablePlacesView(context: Context, attrs: AttributeSet?) : PlacesView(
     companion object {
         private const val MIN_SCALE_FACTOR = 0.4f
         private const val MAX_SCALE_FACTOR = 3.0f
+        private const val CLICK_MILLIS = 300
     }
 }

@@ -1,17 +1,12 @@
 package com.example.booking.services.ui.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.booking.R
 import com.example.booking.common.utils.createDiffCallback
 import com.example.booking.databinding.LayoutHallItemBinding
-import com.example.booking.databinding.LayoutServiceItemBinding
 import com.example.booking.services.domain.model.Hall
-import com.example.booking.services.domain.model.Service
 
 class HallsRecyclerAdapter(
     private val onItemClick: (hall: Hall) -> Unit

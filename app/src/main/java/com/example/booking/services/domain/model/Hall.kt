@@ -3,7 +3,7 @@ package com.example.booking.services.domain.model
 import kotlinx.serialization.Serializable
 
 /**
- * Зал, в котором находятся места для получения услуги
+ * Зал, в котором находятся места заведения
  */
 @Serializable
 data class Hall(

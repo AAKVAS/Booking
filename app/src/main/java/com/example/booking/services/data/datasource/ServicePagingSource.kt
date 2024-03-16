@@ -4,11 +4,10 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.booking.services.data.entity.SearchParams
 import com.example.booking.services.domain.model.Service
-import retrofit2.http.GET
 
 class ServicePagingSource(
     private val searchParams: SearchParams,
-    private val api: ServiceListAPI
+    private val api: ServiceListApiImpl
 ) : PagingSource<Int, Service>() {
     override fun getRefreshKey(state: PagingState<Int, Service>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
@@ -21,7 +20,6 @@ class ServicePagingSource(
         return try {
             val page = params.key ?: INITIAL_PAGE
             val response = api.fetchServices(
-                userLogin = searchParams.userLogin,
                 cityId = searchParams.cityId,
                 searchPattern = searchParams.searchPattern,
                 page = page,

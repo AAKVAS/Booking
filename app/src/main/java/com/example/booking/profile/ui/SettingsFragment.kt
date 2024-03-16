@@ -2,11 +2,11 @@ package com.example.booking.profile.ui
 
 import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -22,7 +22,6 @@ import com.example.booking.databinding.FragmentSettingsBinding
 import com.example.booking.profile.domain.model.ChangePasswordResult
 import com.example.booking.profile.ui.viewModel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -51,13 +50,13 @@ class SettingsFragment : Fragment() {
             btnChangePassword.setOnClickListener {
                 changePassword()
             }
-            ivEditLastname.setOnClickListener {
+            imageViewEditLastname.setOnClickListener {
                 showEditLastnameDialog()
             }
-            ivEditFirstname.setOnClickListener {
+            imageViewEditFirstname.setOnClickListener {
                 showEditFirstnameDialog()
             }
-            ivEditBirthday.setOnClickListener {
+            imageViewEditBirthday.setOnClickListener {
                 showDatePicker(
                     tag = SETTING_BIRTHDAY_TAG,
                     date = viewModel.userDetails.value.birthday
@@ -97,9 +96,9 @@ class SettingsFragment : Fragment() {
 
     private fun onUserDetailsChanged(userDetails: UserDetails) {
         with(binding) {
-            tvLastname.text = userDetails.lastname
-            tvFirstname.text = userDetails.firstname
-            tvBirthday.text = userDetails.birthday.toStringDate()
+            textViewLastname.text = userDetails.lastname
+            textViewFirstname.text = userDetails.firstname
+            textViewBirthday.text = userDetails.birthday.toStringDate()
         }
     }
 

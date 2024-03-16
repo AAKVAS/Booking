@@ -1,8 +1,6 @@
 package com.example.booking.common.data
 
-import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.booking.common.data.AppDatabase.Companion.VERSION
 
 
 //@Database(

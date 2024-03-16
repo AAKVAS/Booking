@@ -1,7 +1,6 @@
 package com.example.booking.services.di
 
 import com.example.booking.common.di.NetworkModule
-import com.example.booking.services.data.datasource.ServiceListAPI
 import com.example.booking.services.data.datasource.ServiceListApiImpl
 import com.example.booking.services.data.repository.ServiceRepositoryImpl
 import com.example.booking.services.domain.repository.ServiceRepository
@@ -17,10 +16,10 @@ import javax.inject.Singleton
 object ServiceModule {
     @Provides
     @Singleton
-    fun providesServiceApi(retrofit: Retrofit): ServiceListAPI {
+    fun providesServiceApi(retrofit: Retrofit): ServiceListApiImpl {
         return retrofit.create(ServiceListApiImpl::class.java)
     }
 
     @Provides
-    fun bindServiceRepository(api: ServiceListAPI): ServiceRepository = ServiceRepositoryImpl(api)
+    fun bindServiceRepository(api: ServiceListApiImpl): ServiceRepository = ServiceRepositoryImpl(api)
 }

@@ -24,6 +24,11 @@
         tools:layout="@layout/fragment_booking" >
         <argument android:name="bookingServiceParam"
             app:argType="com.example.booking.bookings.ui.model.BookingServiceParam" />
+        <action
+            android:id="@+id/action_bookingFragment_to_serviceListFragment"
+            app:destination="@id/serviceListFragment"
+            app:popUpTo="@id/serviceListFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -94,7 +99,7 @@
             android:id="@+id/action_settingsFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:launchSingleTop="true"
-            app:popUpTo="@id/loginFragment"
+            app:popUpTo="@id/serviceListFragment"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>

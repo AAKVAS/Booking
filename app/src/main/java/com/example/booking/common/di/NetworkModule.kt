@@ -1,17 +1,15 @@
 package com.example.booking.common.di
 
+import com.example.booking.common.data.datasource.PingAPI
+import com.example.booking.common.data.repository.RemoteRepositoryImpl
+import com.example.booking.common.domain.repository.RemoteRepository
 import com.example.booking.common.network.NetworkConstants
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -25,4 +23,13 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+    @Singleton
+    @Provides
+    fun providePingAPI(retrofit: Retrofit): PingAPI {
+        return retrofit.create(PingAPI::class.java)
+    }
+
+    @Provides
+    fun bindRemoteRepository(api: PingAPI): RemoteRepository = RemoteRepositoryImpl(api)
 }

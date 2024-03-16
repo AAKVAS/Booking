@@ -1,32 +1,26 @@
 package com.example.booking.services.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.input.key.Key.Companion.H
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.hilt.work.WorkerFactoryModule_ProvideFactoryFactory.provideFactory
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.example.booking.MainActivity
 import com.example.booking.R
 import com.example.booking.bookings.ui.model.BookingServiceParam
 import com.example.booking.common.data.LoadingState
-import com.example.booking.common.ui.viewModel.MainViewModel
 import com.example.booking.databinding.FragmentServiceBinding
 import com.example.booking.services.domain.model.Hall
 import com.example.booking.services.domain.model.Service
 import com.example.booking.services.ui.adapters.HallsRecyclerAdapter
 import com.example.booking.services.ui.viewmodel.ServiceViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.withCreationCallback
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
