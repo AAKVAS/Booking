@@ -3,6 +3,7 @@ package com.example.booking.auth.data.datasource
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -28,6 +29,7 @@ class LocalLoginDatasourceImpl(private val context: Context)
             it[USER_LASTNAME] = userDetails.lastname
             it[USER_FIRSTNAME] = userDetails.firstname
             it[USER_BIRTHDAY] = userDetails.birthday
+            it[NEED_PUSH] = userDetails.needPush
         }
     }
 
@@ -41,6 +43,7 @@ class LocalLoginDatasourceImpl(private val context: Context)
                 lastname = it[USER_LASTNAME]!!,
                 firstname = it[USER_FIRSTNAME]!!,
                 birthday = it[USER_BIRTHDAY]!!,
+                needPush = it[NEED_PUSH]!!
             )
         }
     }
@@ -56,6 +59,7 @@ class LocalLoginDatasourceImpl(private val context: Context)
             it.remove(USER_LASTNAME)
             it.remove(USER_FIRSTNAME)
             it.remove(USER_BIRTHDAY)
+            it.remove(NEED_PUSH)
         }
     }
 
@@ -67,5 +71,6 @@ class LocalLoginDatasourceImpl(private val context: Context)
         private val USER_LASTNAME = stringPreferencesKey("user_lastname")
         private val USER_FIRSTNAME = stringPreferencesKey("user_firstname")
         private val USER_BIRTHDAY = longPreferencesKey("user_birthday")
+        private val NEED_PUSH = booleanPreferencesKey("need_push")
     }
 }

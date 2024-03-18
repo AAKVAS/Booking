@@ -1,30 +1,26 @@
-package com.example.booking.services.data.datasource
-
+package com.example.booking.profile.data.datasource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.booking.services.data.entity.SearchParams
-import com.example.booking.services.data.network.toModel
-import com.example.booking.services.domain.model.Service
+import com.example.booking.profile.data.network.toModel
+import com.example.booking.profile.domain.model.BookingHistory
 
-class FavoriteServicePagingSource(
-    private val searchParams: SearchParams,
-    private val api: ServiceListAPI
-) : PagingSource<Int, Service>() {
-    override fun getRefreshKey(state: PagingState<Int, Service>): Int? {
+class BookingHistoryPagingSource (
+    private val userLogin: String,
+    private val api: ProfileAPI
+) : PagingSource<Int, BookingHistory>()  {
+    override fun getRefreshKey(state: PagingState<Int, BookingHistory>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Service> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, BookingHistory> {
         return try {
             val page = params.key ?: INITIAL_PAGE
-            val response = api.fetchFavoriteServices(
-                userLogin = searchParams.userLogin,
-                cityId = searchParams.cityId,
-                searchPattern = searchParams.searchPattern,
+            val response = api.getBookingHistory(
+                userLogin = userLogin,
                 page = page,
                 size = DEFAULT_PAGE_SIZE
             ).map { it.toModel() }

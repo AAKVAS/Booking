@@ -3,11 +3,12 @@ package com.example.booking.services.data.datasource
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.booking.services.data.entity.SearchParams
+import com.example.booking.services.data.network.toModel
 import com.example.booking.services.domain.model.Service
 
 class ServicePagingSource(
     private val searchParams: SearchParams,
-    private val api: ServiceListApiImpl
+    private val api: ServiceListAPI
 ) : PagingSource<Int, Service>() {
     override fun getRefreshKey(state: PagingState<Int, Service>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
@@ -24,7 +25,8 @@ class ServicePagingSource(
                 searchPattern = searchParams.searchPattern,
                 page = page,
                 size = DEFAULT_PAGE_SIZE
-            )
+            ).map { it.toModel() }
+
             return LoadResult.Page(
                 data = response,
                 prevKey = if (page == INITIAL_PAGE) null else page - 1,

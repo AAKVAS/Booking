@@ -9,4 +9,5 @@ data class UserDetails(
     val lastname: String = "",
     val firstname: String = "",
     val birthday: Long = 0,
+    val needPush: Boolean = true
 )

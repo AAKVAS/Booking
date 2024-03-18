@@ -1,10 +1,9 @@
-package com.example.booking.services.domain.model
+package com.example.booking.services.data.network
 
 /**
  *  Город, в котором находятся филиалы заведений
  */
-data class City(
-    val uid: String,
+data class CityJson(
     val id: Long,
     val name: String
 )

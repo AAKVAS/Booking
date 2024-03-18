@@ -36,6 +36,8 @@
     <string name="search">Поиск</string>
     <string name="profile">Профиль</string>
     <string name="filter">Фильтр</string>
+    <string name="booking_history_empty">История бронирований пуста</string>
+    <string name="history">История</string>
 
     <string name="success_booked">Успешно забронировано</string>
     <string name="failure_booked">Не удалось забронировать место</string>
@@ -50,9 +52,10 @@
     <string name="logout_failed">Не удалось выйти из аккаунта</string>
     <string name="wrong_old">Неверно введён старый пароль</string>
 
-    <string name="start">Начало</string>
+    <string name="start">Начало:</string>
     <string name="booking_start">Начальное время бронирования</string>
-    <string name="end">Конец</string>
+    <string name="end">Конец:</string>
+    <string name="status">Статус:</string>
     <string name="booking_end">Конечное время бронирования</string>
     <string name="end_must_be_more_than_start">Время конца должно быть больше времени начала</string>
 

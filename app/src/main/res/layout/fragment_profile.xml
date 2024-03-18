@@ -7,53 +7,81 @@
     tools:context=".profile.ui.ProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/topLayout"
+        android:id="@+id/layoutContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="@dimen/padding_medium"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/textViewName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Плотников Алексей"
+            android:layout_margin="@dimen/padding_small"
             android:gravity="start"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@id/imageViewSettings"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/iv_settings"
-            />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Плотников Алексей" />
+
+        <TextView
+            android:id="@+id/textViewHistory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_small"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="start"
+            android:text="@string/history"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@id/imageViewSettings"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewName" />
 
         <ImageView
-            android:id="@+id/iv_settings"
+            android:id="@+id/imageViewSettings"
             android:layout_width="@dimen/icon_size"
             android:layout_height="@dimen/icon_size"
             android:src="@drawable/settings"
-            android:layout_marginStart="@dimen/padding_small"
+            android:layout_margin="@dimen/padding_small"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewHistory"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/textViewHistory"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/textViewBookingHistoryEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@string/booking_history_empty"
+            android:gravity="center"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/imageViewSettings"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:text="История бронирований пользователя"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/topLayout"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <include
+        android:id="@+id/includeServiceUnavailable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
-
-<!--    <ListView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_margin="@dimen/padding_medium"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/topLayout"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent" />-->
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        layout="@layout/layout_service_is_unavailable" />
 </androidx.constraintlayout.widget.ConstraintLayout>

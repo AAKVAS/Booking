@@ -3,18 +3,18 @@ package com.example.booking.services.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.booking.common.utils.getUUID
 import com.example.booking.services.data.datasource.FavoriteServicePagingSource
-import com.example.booking.services.data.datasource.ServiceListApiImpl
+import com.example.booking.services.data.datasource.ServiceListAPI
 import com.example.booking.services.data.datasource.ServicePagingSource
 import com.example.booking.services.data.entity.SearchParams
+import com.example.booking.services.data.network.toModel
 import com.example.booking.services.domain.model.City
 import com.example.booking.services.domain.model.Service
 import com.example.booking.services.domain.repository.ServiceRepository
 import kotlinx.coroutines.flow.Flow
 
 class ServiceRepositoryImpl(
-    private val api: ServiceListApiImpl
+    private val api: ServiceListAPI
 ) : ServiceRepository {
     override fun getServices(searchParams: SearchParams): Flow<PagingData<Service>> =
         Pager(
@@ -34,7 +34,7 @@ class ServiceRepositoryImpl(
 
     override suspend fun getServiceDetails(userLogin: String, serviceId: Long): Result<Service> {
         return runCatching {
-            api.getServiceDetails(userLogin, serviceId)
+            api.getServiceDetails(userLogin, serviceId).toModel()
         }
     }
 
@@ -43,7 +43,7 @@ class ServiceRepositoryImpl(
     }
 
     override suspend fun getCities(): List<City> {
-        return api.getCities()
+        return api.getCities().map { it.toModel() }
     }
 
     companion object {

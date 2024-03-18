@@ -17,7 +17,7 @@
             android:id="@+id/imageViewServicePreview"
             android:layout_height="@dimen/service_preview_height"
             android:layout_width="match_parent"
-            android:scaleType="center"
+            android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

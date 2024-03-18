@@ -1,10 +1,12 @@
 package com.example.booking.auth.ui
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.graphics.isSrgb
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -49,10 +51,10 @@ class RegistrationFragment : Fragment() {
             btnLogin.setOnClickListener {
                 navToLoginScreen()
             }
-            teBirthday.editText!!.setOnClickListener {
+            textEditBirthday.editText!!.setOnClickListener {
                 showDatePicker(DATE_PICKER_TAG) { date ->
                     registrationDetails = registrationDetails.copy(birthday = date)
-                    teBirthday.editText!!.setText(date.toStringDate())
+                    textEditBirthday.editText!!.setText(date.toStringDate())
                 }
                 false
             }
@@ -72,10 +74,10 @@ class RegistrationFragment : Fragment() {
         super.onStop()
         with(binding) {
             registrationDetails = registrationDetails.copy(
-                login = teLogin.editText!!.text.toString(),
-                password = tePassword.editText!!.text.toString(),
-                lastname = teLastname.editText!!.text.toString(),
-                firstname = teFirstname.editText!!.text.toString(),
+                login = textEditLogin.editText!!.text.toString(),
+                password = textEditPassword.editText!!.text.toString(),
+                lastname = textEditLastname.editText!!.text.toString(),
+                firstname = textEditFirstname.editText!!.text.toString(),
                 email = textEditEmail.editText!!.text.toString(),
                 phoneNumber = textEditPhoneNumber.editText!!.text.toString()
             )
@@ -85,11 +87,11 @@ class RegistrationFragment : Fragment() {
 
     private fun onRegistrationDetailsChanged(registrationDetails: RegistrationDetails) {
         with(binding) {
-            teLogin.editText!!.setText(registrationDetails.login)
-            tePassword.editText!!.setText(registrationDetails.password)
-            teBirthday.editText!!.setText(registrationDetails.birthday.toStringDate())
-            teFirstname.editText!!.setText(registrationDetails.firstname)
-            teLastname.editText!!.setText(registrationDetails.lastname)
+            textEditLogin.editText!!.setText(registrationDetails.login)
+            textEditPassword.editText!!.setText(registrationDetails.password)
+            textEditBirthday.editText!!.setText(registrationDetails.birthday.toStringDate())
+            textEditFirstname.editText!!.setText(registrationDetails.firstname)
+            textEditLastname.editText!!.setText(registrationDetails.lastname)
             textEditEmail.editText!!.setText(registrationDetails.email)
             textEditPhoneNumber.editText!!.setText(registrationDetails.phoneNumber)
         }
@@ -105,7 +107,9 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun register() {
-        viewModel.register(registrationDetails)
+        if (validateRegisterDetails()) {
+            viewModel.register(registrationDetails)
+        }
     }
 
     private fun navToLoginScreen() {
@@ -122,12 +126,41 @@ class RegistrationFragment : Fragment() {
         Toast.makeText(requireActivity(), R.string.not_registered, Toast.LENGTH_LONG).show()
     }
 
+    private fun validateRegisterDetails(): Boolean {
+        val repeatPassword = binding.textEditRepeatPassword.editText!!.text.toString()
+        if (registrationDetails.lastname.isEmpty() ||
+            registrationDetails.firstname.isEmpty() ||
+            registrationDetails.password.isEmpty() ||
+            registrationDetails.email.isEmpty() ||
+            repeatPassword.isEmpty()) {
+            showThereAreEmptyFieldsMessage()
+            return false
+        }
+        if (repeatPassword != registrationDetails.password) {
+            showPasswordMismatchMessage()
+            return false
+        }
+        return true
+    }
+
     private fun showThereAreEmptyFieldsMessage() {
-        TODO("Надо сделать проверку, что все поля заполнены")
+        with(AlertDialog.Builder(requireContext())) {
+            setMessage(R.string.there_are_empty_fields)
+            setPositiveButton(R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+            }
+            show()
+        }
     }
 
     private fun showPasswordMismatchMessage() {
-        TODO("Надо сделать проверку, что пароли совпадают")
+        with(AlertDialog.Builder(requireContext())) {
+            setMessage(R.string.password_mismatch)
+            setPositiveButton(R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+            }
+            show()
+        }
     }
 
     companion object {

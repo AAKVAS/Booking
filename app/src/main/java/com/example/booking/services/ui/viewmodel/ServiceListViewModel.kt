@@ -2,6 +2,7 @@ package com.example.booking.services.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.booking.common.ui.viewModel.NetworkViewModel
 import com.example.booking.services.domain.CatalogInteractor
 import com.example.booking.services.domain.model.City
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,22 +19,15 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class ServiceListViewModel @Inject constructor(
-    private val interactor: CatalogInteractor
-) : ViewModel() {
+    interactor: CatalogInteractor
+) : NetworkViewModel(interactor) {
     private val _isLogged: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    private val _isServiceAvailable: MutableStateFlow<Boolean> = MutableStateFlow(true)
 
     /**
      * Вошёл ли пользователь в аккаунт
      */
     val isLogged: StateFlow<Boolean>
         get() = _isLogged
-
-    /**
-     * Доступен ли backend-сервис
-     */
-    val isServiceAvailable: StateFlow<Boolean>
-        get() = _isServiceAvailable
 
     private val _cityId: MutableStateFlow<Long> = MutableStateFlow(-1)
 
@@ -64,12 +58,6 @@ class ServiceListViewModel @Inject constructor(
                 _cities.emit(interactor.getCities())
             }
             catch (exception: Exception) {}
-        }
-    }
-
-    fun checkServiceAvailable() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _isServiceAvailable.emit(interactor.isServiceAvailable())
         }
     }
 

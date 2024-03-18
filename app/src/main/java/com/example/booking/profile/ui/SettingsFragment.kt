@@ -65,6 +65,11 @@ class SettingsFragment : Fragment() {
                     viewModel.saveUserDetails(details)
                 }
             }
+            notificationSwitch.setOnCheckedChangeListener { buttonView, value ->
+                if (buttonView.isPressed) {
+                    viewModel.changeNeedPush(value)
+                }
+            }
         }
         subscribeToViewModel()
     }
@@ -99,6 +104,7 @@ class SettingsFragment : Fragment() {
             textViewLastname.text = userDetails.lastname
             textViewFirstname.text = userDetails.firstname
             textViewBirthday.text = userDetails.birthday.toStringDate()
+            notificationSwitch.isChecked = userDetails.needPush
         }
     }
 

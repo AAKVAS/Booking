@@ -1,6 +1,7 @@
 package com.example.booking.bookings.ui
 
 import android.app.AlertDialog
+import android.app.ProgressDialog.show
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import com.example.booking.MainActivity
 import com.example.booking.R
+import com.example.booking.auth.ui.RegistrationFragment.Companion.DATE_PICKER_TAG
 import com.example.booking.bookings.domain.model.Booking
 import com.example.booking.bookings.ui.model.BookingValidationStatus
 import com.example.booking.bookings.ui.viewModel.BookingViewModel
@@ -173,33 +175,31 @@ class BookingFragment : Fragment() {
     }
 
     private fun showNotValidMessage(status: BookingValidationStatus) {
-        val builder = AlertDialog.Builder(context)
-
         val message = when(status) {
             BookingValidationStatus.PLACE_NOT_SELECTED -> R.string.choose_free_place
             BookingValidationStatus.WRONG_TIME -> R.string.end_must_be_more_than_start
             else -> -1
         }
 
-        builder.setMessage(message)
-            .setPositiveButton(R.string.ok) { dialog, _ ->
+        with(AlertDialog.Builder(context)) {
+            setMessage(message)
+            setPositiveButton(R.string.ok) { dialog, _ ->
                 dialog.dismiss()
             }
-
-        val dialog = builder.create()
-        dialog.show()
+            create()
+            show()
+        }
     }
 
     private fun showBookingSuccessMessage() {
-        val builder = AlertDialog.Builder(context)
-
-        builder.setMessage(R.string.success_booked)
-            .setPositiveButton(R.string.ok) { dialog, _ ->
+        with(AlertDialog.Builder(context)) {
+            setMessage(R.string.success_booked)
+            setPositiveButton(R.string.ok) { dialog, _ ->
                 navToCatalog()
             }
-
-        val dialog = builder.create()
-        dialog.show()
+            create()
+            show()
+        }
     }
 
     private fun navToCatalog() {
@@ -208,15 +208,14 @@ class BookingFragment : Fragment() {
     }
 
     private fun showBookingFailureMessage() {
-        val builder = AlertDialog.Builder(context)
-
-        builder.setMessage(R.string.failure_booked)
-            .setPositiveButton(R.string.ok) { dialog, _ ->
+        with(AlertDialog.Builder(context)) {
+            setMessage(R.string.failure_booked)
+            setPositiveButton(R.string.ok) { dialog, _ ->
                 dialog.dismiss()
             }
-
-        val dialog = builder.create()
-        dialog.show()
+            create()
+            show()
+        }
     }
 
     companion object {

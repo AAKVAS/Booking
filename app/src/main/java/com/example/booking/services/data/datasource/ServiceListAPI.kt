@@ -1,11 +1,13 @@
 package com.example.booking.services.data.datasource
 
+import com.example.booking.services.data.network.CityJson
+import com.example.booking.services.data.network.ServiceJson
 import com.example.booking.services.domain.model.City
 import com.example.booking.services.domain.model.Service
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface ServiceListApiImpl {
+interface ServiceListAPI {
 
     @GET("services")
     suspend fun fetchServices(
@@ -13,7 +15,7 @@ interface ServiceListApiImpl {
         @Query("searchPattern") searchPattern: String,
         @Query("page") page: Int,
         @Query("size") size: Int
-    ): List<Service>
+    ): List<ServiceJson>
 
     @GET("favorite-services")
     suspend fun fetchFavoriteServices(
@@ -22,18 +24,18 @@ interface ServiceListApiImpl {
         @Query("searchPattern") searchPattern: String,
         @Query("page") page: Int,
         @Query("size") size: Int
-    ): List<Service>
+    ): List<ServiceJson>
 
     @GET("service")
     suspend fun getServiceDetails(
         @Query("userLogin") userLogin: String,
         @Query("serviceId") serviceId: Long
-    ): Service
+    ): ServiceJson
 
 //    suspend fun setServiceFavorite(userLogin: String, serviceId: Long, favorite: Boolean) {
 //
 //    }
 
     @GET("cities")
-    suspend fun getCities(): List<City>
+    suspend fun getCities(): List<CityJson>
 }

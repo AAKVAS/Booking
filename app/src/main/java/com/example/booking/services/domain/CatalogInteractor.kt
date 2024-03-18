@@ -3,6 +3,7 @@ package com.example.booking.services.domain
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.booking.auth.domain.repository.LoginRepository
+import com.example.booking.common.domain.NetworkInteractor
 import com.example.booking.common.domain.repository.RemoteRepository
 import com.example.booking.services.data.entity.SearchParams
 import com.example.booking.services.domain.model.City
@@ -18,20 +19,13 @@ import javax.inject.Inject
 class CatalogInteractor @Inject constructor(
     private val loginRepository: LoginRepository,
     private val serviceRepository: ServiceRepository,
-    private val remoteRepository: RemoteRepository
-) {
+    remoteRepository: RemoteRepository
+) : NetworkInteractor(remoteRepository) {
     /**
      * Вошёл ли пользователь в систему
      */
     suspend fun isUserLogged(): Boolean {
         return loginRepository.isUserLogged()
-    }
-
-    /**
-     * Доступен ли backend-сервис
-     */
-    suspend fun isServiceAvailable(): Boolean {
-        return remoteRepository.isServiceAvailable()
     }
 
     /**
@@ -51,9 +45,9 @@ class CatalogInteractor @Inject constructor(
      * Получить список избранных услуг, отфильтровав их по названию и id города, где они предоставляются.
      * Если любой город, то передавать -1
      */
-     fun getFavoriteServices(searchPattern: String, cityId: Long): Flow<PagingData<Service>> {
+    suspend fun getFavoriteServices(searchPattern: String, cityId: Long): Flow<PagingData<Service>> {
         val searchParams = SearchParams(
-            userLogin = "",
+            userLogin = getUserLogin(),
             searchPattern = searchPattern,
             cityId = cityId
         )

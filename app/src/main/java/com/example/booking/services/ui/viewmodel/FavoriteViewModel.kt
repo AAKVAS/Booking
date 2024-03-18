@@ -22,7 +22,7 @@ class FavoriteViewModel @Inject constructor(
     /**
      * Инициирует поиск сервисов
      */
-    fun search(searchPattern: String = "", cityId: Long = -1): Flow<PagingData<Service>> {
+    suspend fun search(searchPattern: String = "", cityId: Long = -1): Flow<PagingData<Service>> {
         _searchPattern.update { searchPattern }
         _cityId.update { cityId }
         return interactor.getFavoriteServices(_searchPattern.value, _cityId.value).cachedIn(viewModelScope)

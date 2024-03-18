@@ -88,4 +88,11 @@ class SettingsViewModel @Inject constructor(
             _changePasswordResult.emit(interactor.changePassword(oldPassword, newPassword))
         }
     }
+
+    /**
+     * Изменить необходимость отправлять уведомления
+     */
+    fun changeNeedPush(value: Boolean) {
+        saveUserDetails(_userDetails.value.copy(needPush = value))
+    }
 }

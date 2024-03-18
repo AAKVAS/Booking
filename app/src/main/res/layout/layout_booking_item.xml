@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    android:id="@+id/card"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/padding_extra_small">
+
+        <ImageView
+            android:id="@+id/backgroundImg"
+            android:layout_width="@dimen/service_item_width"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/padding_extra_small"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/textViewServiceTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_small"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/imgButtonMore"
+            app:layout_constraintStart_toEndOf="@id/backgroundImg"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Янки" />
+
+        <ImageButton
+            android:id="@+id/imgButtonMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_small"
+            android:background="@null"
+            android:src="@drawable/more"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewStartTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_extra_small"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/start"
+            app:layout_constraintStart_toEndOf="@id/backgroundImg"
+            app:layout_constraintTop_toBottomOf="@id/textViewServiceTitle" />
+
+        <TextView
+            android:id="@+id/textViewStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_extra_small"
+            app:layout_constraintStart_toEndOf="@id/textViewStartTitle"
+            app:layout_constraintTop_toBottomOf="@id/textViewServiceTitle"
+            tools:text="11:00" />
+
+        <TextView
+            android:id="@+id/textViewEndTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_extra_small"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/end"
+            app:layout_constraintStart_toEndOf="@id/backgroundImg"
+            app:layout_constraintTop_toBottomOf="@id/textViewStartTitle" />
+
+        <TextView
+            android:id="@+id/textViewEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_extra_small"
+            app:layout_constraintStart_toEndOf="@id/textViewEndTitle"
+            app:layout_constraintTop_toBottomOf="@id/textViewStart"
+            tools:text="12:00" />
+
+
+        <TextView
+            android:id="@+id/textViewStatusTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_extra_small"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/status"
+            app:layout_constraintStart_toEndOf="@id/backgroundImg"
+            app:layout_constraintTop_toBottomOf="@id/textViewEndTitle" />
+
+        <TextView
+            android:id="@+id/textViewStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_extra_small"
+            app:layout_constraintStart_toEndOf="@id/textViewStatusTitle"
+            app:layout_constraintTop_toBottomOf="@id/textViewEnd"
+            tools:text="Отменён клиентом" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
