@@ -5,12 +5,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.booking.bookings.domain.BookingInteractor
 import com.example.booking.bookings.domain.model.Booking
-import com.example.booking.bookings.ui.model.BookingServiceParam
+import com.example.booking.bookings.ui.model.BookingEstablishmentParam
 import com.example.booking.bookings.ui.model.BookingValidationStatus
 import com.example.booking.common.utils.getUUID
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,42 +20,61 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+/**
+ * [ViewModel] экрана бронирования
+ */
 class BookingViewModel @AssistedInject constructor(
-    @Assisted val bookingService: BookingServiceParam,
+    @Assisted val bookingEstablishment: BookingEstablishmentParam,
     private val interactor: BookingInteractor
 ) : ViewModel() {
+    /**
+     * Фабрика для создания класса [BookingViewModel]
+     */
     @AssistedFactory
     interface BookingViewModelFactory {
-        fun create(bookingService: BookingServiceParam): BookingViewModel
+        fun create(bookingService: BookingEstablishmentParam): BookingViewModel
     }
 
     private val _bookingStateFlow: MutableStateFlow<Booking> = MutableStateFlow(
         Booking(
             getUUID(),
-            bookingService.hall,
+            bookingEstablishment.hall,
             place = null,
             startedAt = DEFAULT_STARTED_AT,
             endedAt = DEFAULT_ENDED_AT,
             date = 0
         )
     )
+
+    /**
+     * Состояние бронирования
+     */
     val bookingStateFlow: StateFlow<Booking> = _bookingStateFlow.asStateFlow()
 
     private val _bookingResultFlow: MutableSharedFlow<Result<Unit>> = MutableSharedFlow(0)
     val bookingResultFlow = _bookingResultFlow.asSharedFlow()
 
+    /**
+     * Изменить состояние бронирования
+     */
     fun updateBookingState(booking: Booking) {
         _bookingStateFlow.update { booking }
     }
 
+    /**
+     * Забронировать место
+     */
     fun bookPlace() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val booking = _bookingStateFlow.value
             requireNotNull(booking.place)
             _bookingResultFlow.emit(interactor.bookPlace(booking))
         }
     }
 
+    /**
+     * Проверить корректность данных для создания бронирования
+     */
     fun validateBooking(): BookingValidationStatus {
         val booking = _bookingStateFlow.value
         if (booking.startedAt >= booking.endedAt) {
@@ -68,7 +88,7 @@ class BookingViewModel @AssistedInject constructor(
 
     companion object {
         @Suppress("UNCHECKED_CAST")
-        fun provideFactory(factory:BookingViewModelFactory, bookingService: BookingServiceParam) : ViewModelProvider.Factory {
+        fun provideFactory(factory:BookingViewModelFactory, bookingService: BookingEstablishmentParam) : ViewModelProvider.Factory {
             return object: ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
                     return factory.create(bookingService) as T

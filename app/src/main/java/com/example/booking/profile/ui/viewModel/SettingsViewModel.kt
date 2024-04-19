@@ -40,13 +40,13 @@ class SettingsViewModel @Inject constructor(
 
     private val _detailsSavedResult: MutableSharedFlow<Result<Unit>> = MutableSharedFlow()
 
-    private val _changePasswordResult: MutableSharedFlow<ChangePasswordResult> = MutableSharedFlow()
-
     /**
      * Результаты попытки изменения пароля
      */
     val changePasswordResult: Flow<ChangePasswordResult>
         get() = _changePasswordResult
+
+    private val _changePasswordResult: MutableSharedFlow<ChangePasswordResult> = MutableSharedFlow()
 
     /**
      * Результат попытки сохранить данные аккаунта

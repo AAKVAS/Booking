@@ -1,5 +1,6 @@
 package com.example.booking.profile.ui
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +29,12 @@ import kotlinx.coroutines.launch
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private val viewModel: ProfileViewModel by viewModels()
-    private val adapter: BookingHistoryAdapter = BookingHistoryAdapter()
+    private val adapter: BookingHistoryAdapter = BookingHistoryAdapter(
+        cancelBooking = { viewModel.cancelBooking(it) },
+        deleteBooking = { viewModel.deleteBooking(it) },
+        onItemClick = { navToEstablishmentScreen(it) }
+    )
+    private var searchJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,10 +72,35 @@ class ProfileFragment : Fragment() {
     private fun subscribeToViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                getBookings()
                 launch { viewModel.userDetails.collect(::onUserDetailsChanged) }
-                launch { viewModel.getBookingHistory().collect { adapter.submitData(it) } }
                 launch { viewModel.isServiceAvailable.collect(::serviceAvailabilityChanged) }
+                launch { viewModel.deleteBookingFlow.collect(::onDeleteBooking) }
+                launch { viewModel.bookingCanceledFlow.collect(::onCancelBooking) }
             }
+        }
+    }
+
+    private fun getBookings() {
+        searchJob?.cancel()
+        searchJob = lifecycleScope.launch {
+            viewModel.getBookingHistory().collect { adapter.submitData(it) }
+        }
+    }
+
+    private fun onDeleteBooking(result: Result<Unit>) {
+        if (result.isSuccess) {
+            getBookings()
+        } else {
+            showDeleteBookingFailureMessage()
+        }
+    }
+
+    private fun onCancelBooking(result: Result<Unit>) {
+        if (result.isSuccess) {
+            getBookings()
+        } else {
+            showCancelBookingFailureMessage()
         }
     }
 
@@ -79,9 +110,35 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun showDeleteBookingFailureMessage() {
+        with(AlertDialog.Builder(requireContext())) {
+            setMessage(R.string.delete_booking_failure)
+            setPositiveButton(R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+            }
+            show()
+        }
+    }
+
+    private fun showCancelBookingFailureMessage() {
+        with(AlertDialog.Builder(requireContext())) {
+            setMessage(R.string.cancel_booking_failure)
+            setPositiveButton(R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+            }
+            show()
+        }
+    }
+
     private fun navToSettingsScreen() {
         (requireActivity() as MainActivity).navController
             .navigate(R.id.action_profileFragment_to_settingsFragment)
+    }
+
+    private fun navToEstablishmentScreen(establishmentId: Long) {
+        val action = ProfileFragmentDirections.actionProfileFragmentToEstablishmentFragment(establishmentId)
+        (requireActivity() as MainActivity).navController
+            .navigate(action)
     }
 
     private fun serviceAvailabilityChanged(available: Boolean) {

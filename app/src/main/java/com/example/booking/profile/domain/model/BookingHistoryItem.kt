@@ -1,13 +1,12 @@
 package com.example.booking.profile.domain.model
 
-import com.example.booking.services.domain.model.Service
+import com.example.booking.establishments.domain.model.Establishment
 
 data class BookingHistoryItem(
     val uid: String,
     val id: Long,
-    val service: Service,
+    val establishment: Establishment,
     val statusId: Int,
-    val status: String,
     val startedAt: Int,
     val endedAt: Int,
 )

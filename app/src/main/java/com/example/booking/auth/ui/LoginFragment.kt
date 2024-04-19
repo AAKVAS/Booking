@@ -18,6 +18,9 @@ import com.example.booking.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/**
+ * Фрагмент экрана входа в систему
+ */
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
@@ -88,12 +91,12 @@ class LoginFragment : Fragment() {
 
     private fun navToCatalogScreen() {
         (requireActivity() as MainActivity).navController
-            .navigate(R.id.action_loginFragment_to_serviceListFragment)
+            .navigate(R.id.action_loginFragment_to_catalogFragment)
     }
 
     private fun navToCatalogAfterLogin() {
         (requireActivity() as MainActivity).navController
-            .navigate(R.id.action_serviceListFragment_root)
+            .navigate(R.id.action_catalogFragment_root)
     }
 
     private fun navToRegisterScreen() {

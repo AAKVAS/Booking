@@ -12,18 +12,16 @@ import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
+/**
+ * DI-модуль бронированя
+ */
 @Module(includes = [NetworkModule::class])
 @InstallIn(SingletonComponent::class)
 object BookingModule {
     @Provides
     @Singleton
     fun providesBookingAPI(retrofit: Retrofit): BookingAPI {
-        //return retrofit.create(BookingAPI::class.java)
-        return object : BookingAPI {
-            override suspend fun bookPlace(userLogin: String, booking: Booking) {
-
-            }
-        }
+        return retrofit.create(BookingAPI::class.java)
     }
 
     @Provides

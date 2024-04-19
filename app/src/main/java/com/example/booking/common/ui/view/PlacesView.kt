@@ -6,15 +6,21 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import com.example.booking.R
-import com.example.booking.services.domain.model.Place
+import com.example.booking.establishments.domain.model.Place
 
+/**
+ * [View], отображающий места в зале
+ */
 open class PlacesView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
-    protected val placePaint = Paint().apply {
-        color = context.getColor(R.color.black)
+    private val placePaint = Paint().apply {
+        color = context.getColor(R.color.md_theme_primary)
         style = Paint.Style.FILL
     }
 
+    /**
+     * Список мест в зале
+     */
     var places: List<Place> = listOf()
         set(value) {
             field = value

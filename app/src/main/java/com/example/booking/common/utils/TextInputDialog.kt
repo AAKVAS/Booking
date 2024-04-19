@@ -31,6 +31,9 @@ class TextInputDialog(
         }
     }
 
+    /**
+     * Вызывает окно
+     */
     fun show() {
         alertDialog.show()
     }

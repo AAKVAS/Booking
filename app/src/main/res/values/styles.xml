@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SecondaryColor" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/md_theme_secondary</item>
+        <item name="android:textColorHint">@color/md_theme_secondaryContainer</item>
+    </style>
+
+    <style name="ImportantButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/md_theme_error</item>
+        <item name="android:textColorHint">@color/md_theme_onError</item>
+    </style>
+</resources>

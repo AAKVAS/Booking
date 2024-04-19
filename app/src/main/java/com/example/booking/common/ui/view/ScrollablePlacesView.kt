@@ -8,17 +8,22 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import androidx.appcompat.content.res.AppCompatResources
 import com.example.booking.R
-import com.example.booking.services.domain.model.Place
-import com.example.booking.services.domain.model.PlaceCoordinate
+import com.example.booking.establishments.domain.model.Place
+import com.example.booking.establishments.domain.model.PlaceCoordinate
 import kotlin.math.ceil
 
-
+/**
+ * [View] мест в зале с возможностью менять размер и выбирать место
+ */
 class ScrollablePlacesView(context: Context, attrs: AttributeSet?) : PlacesView(context, attrs) {
-    var selectedPlace: Place? = null
+    private var selectedPlace: Place? = null
         private set
 
-    var _onPlaceChanged: (place: Place?) -> Unit = {}
-    public fun setOnPlaceChanged(block: ( place: Place?) -> Unit) {
+    /**
+     * Обработчик изменения места
+     */
+    private var _onPlaceChanged: (place: Place?) -> Unit = {}
+    fun setOnPlaceChanged(block: ( place: Place?) -> Unit) {
         _onPlaceChanged = block
     }
 
@@ -41,6 +46,11 @@ class ScrollablePlacesView(context: Context, attrs: AttributeSet?) : PlacesView(
 
     private val bluePaint = Paint().apply {
         color = context.getColor(R.color.blue)
+        style = Paint.Style.FILL
+    }
+
+    private val textPaint = Paint().apply {
+        color = context.getColor(R.color.black)
         style = Paint.Style.FILL
     }
 
@@ -121,8 +131,8 @@ class ScrollablePlacesView(context: Context, attrs: AttributeSet?) : PlacesView(
 
             val textLeft = imageRight.toFloat() + 1
             val textTop = imageBottom.toFloat() - 5
-            placePaint.textSize = 20f
-            canvas.drawText(place.peopleAmount.toString(), textLeft, textTop, placePaint)
+            textPaint.textSize = 20f
+            canvas.drawText(place.peopleAmount.toString(), textLeft, textTop, textPaint)
         }
         canvas.restore()
     }

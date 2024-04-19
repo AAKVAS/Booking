@@ -12,4 +12,13 @@ interface ProfileRepository {
      * Возвращает поток истории бронирований
      */
     fun getBookingHistory(userLogin: String): Flow<PagingData<BookingHistory>>
+
+    /**
+     * Отменить предстоящее бронирование
+     */
+    suspend fun cancelBooking(userLogin: String, bookingId: Long)
+    /**
+     * Удалить из истории бронирование
+     */
+    suspend fun deleteBooking(userLogin: String, bookingId: Long)
 }

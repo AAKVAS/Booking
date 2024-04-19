@@ -15,6 +15,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * DI-Модуль для авторизации
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 interface AuthModule {

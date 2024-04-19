@@ -1,6 +1,6 @@
 package com.example.booking.profile.ui.model
 
-import com.example.booking.services.domain.model.Service
+import com.example.booking.establishments.domain.model.Establishment
 
 /**
  * Элемент списка истории бронирований
@@ -20,9 +20,8 @@ sealed interface BookingHistoryUiItem {
     data class Booking (
         val uid: String,
         val id: Long,
-        val service: Service,
+        val establishment: Establishment,
         val statusId: Int,
-        val status: String,
         val startedAt: Int,
         val endedAt: Int,
     ) : BookingHistoryUiItem

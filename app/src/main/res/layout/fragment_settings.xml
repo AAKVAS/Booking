@@ -170,21 +170,23 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChangePassword"
+        android:theme="@style/ImportantButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/change_password"
+        android:hint="@string/change_password"
         android:layout_marginVertical="@dimen/padding_small"
         android:layout_marginHorizontal="@dimen/padding_medium"
         app:layout_constraintTop_toBottomOf="@id/layout_notification"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogout"
+        android:theme="@style/SecondaryColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/logout"
+        android:hint="@string/logout"
         android:layout_marginVertical="@dimen/padding_small"
         android:layout_marginHorizontal="@dimen/padding_medium"
         app:layout_constraintTop_toBottomOf="@id/btnChangePassword"

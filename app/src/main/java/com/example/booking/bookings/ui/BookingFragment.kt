@@ -1,7 +1,6 @@
 package com.example.booking.bookings.ui
 
 import android.app.AlertDialog
-import android.app.ProgressDialog.show
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,10 +11,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
-import coil.load
 import com.example.booking.MainActivity
 import com.example.booking.R
-import com.example.booking.auth.ui.RegistrationFragment.Companion.DATE_PICKER_TAG
 import com.example.booking.bookings.domain.model.Booking
 import com.example.booking.bookings.ui.model.BookingValidationStatus
 import com.example.booking.bookings.ui.viewModel.BookingViewModel
@@ -31,7 +28,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
+/**
+ * Фрагмент экрана бронирования
+ */
 @AndroidEntryPoint
 class BookingFragment : Fragment() {
 
@@ -42,7 +41,7 @@ class BookingFragment : Fragment() {
 
     private val args: BookingFragmentArgs by navArgs()
     private val viewModel: BookingViewModel by viewModels {
-        BookingViewModel.provideFactory(viewModelFactory, args.bookingServiceParam)
+        BookingViewModel.provideFactory(viewModelFactory, args.bookingEstablishmentParam)
     }
 
     override fun onCreateView(
@@ -61,9 +60,9 @@ class BookingFragment : Fragment() {
 
     private fun bind() {
         with(binding) {
-            textViewServiceTitle.text = args.bookingServiceParam.title
-            textViewHallTitle.text =  args.bookingServiceParam.hall.title
-            placesView.places = args.bookingServiceParam.hall.places
+            textViewEstablishmentTitle.text = args.bookingEstablishmentParam.title
+            textViewHallTitle.text = args.bookingEstablishmentParam.hall.title
+            placesView.places = args.bookingEstablishmentParam.hall.places
             placesView.setOnPlaceChanged {
                 viewModel.updateBookingState(viewModel.bookingStateFlow.value.copy(place = it))
             }
@@ -204,7 +203,7 @@ class BookingFragment : Fragment() {
 
     private fun navToCatalog() {
         (requireActivity() as MainActivity).navController
-            .navigate(R.id.action_bookingFragment_to_serviceListFragment)
+            .navigate(R.id.action_bookingFragment_to_catalogFragment)
     }
 
     private fun showBookingFailureMessage() {

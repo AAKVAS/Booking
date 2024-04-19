@@ -3,7 +3,7 @@ package com.example.booking.profile.data.network
 import com.example.booking.common.utils.getUUID
 import com.example.booking.profile.domain.model.BookingHistory
 import com.example.booking.profile.domain.model.BookingHistoryItem
-import com.example.booking.services.domain.model.Service
+import com.example.booking.establishments.domain.model.Establishment
 
 fun BookingHistoryJson.toModel(): BookingHistory =
     BookingHistory(
@@ -16,15 +16,14 @@ fun BookingHistoryItemJson.toModel(): BookingHistoryItem =
     BookingHistoryItem(
         uid = getUUID(),
         id = id,
-        service = service.toModel(),
+        establishment = establishment.toModel(),
         statusId = statusId,
-        status = status,
         startedAt = startedAt,
         endedAt = endedAt,
     )
 
-fun BookingServiceJson.toModel(): Service =
-    Service(
+fun BookingEstablishmentJson.toModel(): Establishment =
+    Establishment(
         uid = getUUID(),
         id = id,
         title = title,

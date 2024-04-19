@@ -157,6 +157,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnRegister"
+                android:theme="@style/SecondaryColor"
                 android:layout_width="@dimen/medium_btn_width"
                 android:layout_height="@dimen/btn_height"
                 android:layout_margin="@dimen/padding_small"
@@ -168,6 +169,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLogin"
+                android:theme="@style/SecondaryColor"
                 android:layout_width="@dimen/medium_btn_width"
                 android:layout_height="@dimen/btn_height"
                 android:layout_margin="@dimen/padding_small"

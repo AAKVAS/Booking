@@ -13,6 +13,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * [ViewModel] экрана входа
+ */
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val interactor: LoginInteractor
@@ -21,12 +24,22 @@ class LoginViewModel @Inject constructor(
         MutableStateFlow(LoginDetails("", ""))
 
     private val _loggedFlow: MutableSharedFlow<Boolean> = MutableSharedFlow(0)
+
+    /**
+     * Состояние, вошёл ли пользователь в профиль
+     */
     val loggedFlow: Flow<Boolean>
         get() = _loggedFlow
 
+    /**
+     * Состояние данных для входа
+     */
     val loginDetailsState: StateFlow<LoginDetails>
         get() = _loginDetailsState
 
+    /**
+     *  Вход в систему
+     */
     fun login(loginDetails: LoginDetails) {
         viewModelScope.launch(Dispatchers.IO) {
             _loggedFlow.emit(interactor.login(loginDetails))

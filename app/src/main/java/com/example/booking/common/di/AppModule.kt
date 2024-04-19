@@ -10,6 +10,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * Модуль приложения, предоставляющий Room БД
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 internal object AppDataModule {

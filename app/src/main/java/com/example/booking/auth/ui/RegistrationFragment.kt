@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.graphics.isSrgb
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -22,6 +21,9 @@ import com.example.booking.databinding.FragmentRegistrationBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/**
+ * Фрагмент экрана регистрации
+ */
 @AndroidEntryPoint
 class RegistrationFragment : Fragment() {
     private lateinit var binding: FragmentRegistrationBinding
@@ -72,6 +74,11 @@ class RegistrationFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
+        bindRegistrationDetails()
+        viewModel.setRegistrationDetails(registrationDetails)
+    }
+
+    private fun bindRegistrationDetails() {
         with(binding) {
             registrationDetails = registrationDetails.copy(
                 login = textEditLogin.editText!!.text.toString(),
@@ -82,7 +89,6 @@ class RegistrationFragment : Fragment() {
                 phoneNumber = textEditPhoneNumber.editText!!.text.toString()
             )
         }
-        viewModel.setRegistrationDetails(registrationDetails)
     }
 
     private fun onRegistrationDetailsChanged(registrationDetails: RegistrationDetails) {
@@ -119,7 +125,7 @@ class RegistrationFragment : Fragment() {
 
     private fun navToCatalogAfterRegister() {
         (requireActivity() as MainActivity).navController
-            .navigate(R.id.action_registrationFragment_to_serviceListFragment_root)
+            .navigate(R.id.action_registrationFragment_to_catalogFragment_root)
     }
 
     private fun showNotRegisteredMessage() {
@@ -127,6 +133,7 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun validateRegisterDetails(): Boolean {
+        bindRegistrationDetails()
         val repeatPassword = binding.textEditRepeatPassword.editText!!.text.toString()
         if (registrationDetails.lastname.isEmpty() ||
             registrationDetails.firstname.isEmpty() ||

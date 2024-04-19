@@ -10,6 +10,9 @@ import com.example.booking.profile.domain.repository.ProfileRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+/**
+ * Реализация репозитория профиля клиента приложения
+ */
 class ProfileRepositoryImpl @Inject constructor(
     private val api: ProfileAPI
 ) : ProfileRepository {
@@ -20,6 +23,14 @@ class ProfileRepositoryImpl @Inject constructor(
         ) {
             BookingHistoryPagingSource(userLogin, api)
         }.flow
+
+    override suspend fun cancelBooking(userLogin: String, bookingId: Long) {
+        api.cancelBooking(userLogin, bookingId)
+    }
+
+    override suspend fun deleteBooking(userLogin: String, bookingId: Long) {
+        api.deleteBooking(userLogin, bookingId)
+    }
 
     companion object {
         private const val PAGE_SIZE = 10

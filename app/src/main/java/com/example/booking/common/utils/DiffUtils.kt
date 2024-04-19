@@ -2,6 +2,9 @@ package com.example.booking.common.utils
 
 import androidx.recyclerview.widget.DiffUtil
 
+/**
+ * Создаёт DiffUtil.ItemCallback
+ */
 inline fun <reified T> createDiffCallback(
     crossinline areItemsTheSame: (T, T) -> Boolean,
     crossinline areContentsTheSame: (T, T) -> Boolean

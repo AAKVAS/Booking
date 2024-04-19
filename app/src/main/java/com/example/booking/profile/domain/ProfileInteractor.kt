@@ -33,6 +33,24 @@ class ProfileInteractor @Inject constructor(
         return profileRepository.getBookingHistory(getUserLogin())
     }
 
+    /**
+     * Отменить предстоящее бронирование
+     */
+    suspend fun cancelBooking(bookingId: Long): Result<Unit> {
+        return runCatching {
+            profileRepository.cancelBooking(getUserLogin(), bookingId)
+        }
+    }
+
+    /**
+     * Удалить из истории бронирование
+     */
+    suspend fun deleteBooking(bookingId: Long): Result<Unit> {
+        return runCatching {
+            profileRepository.deleteBooking(getUserLogin(), bookingId)
+        }
+    }
+
     private suspend fun getUserLogin(): String {
         return if (loginRepository.isUserLogged()) {
             loginRepository.getUserDetails().first().login

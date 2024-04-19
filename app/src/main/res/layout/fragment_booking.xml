@@ -12,9 +12,10 @@ tools:context=".bookings.ui.BookingFragment">
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textViewServiceTitle"
+        android:id="@+id/textViewEstablishmentTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textColor="@color/md_theme_primary"
         android:layout_margin="@dimen/padding_medium"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -29,7 +30,7 @@ tools:context=".bookings.ui.BookingFragment">
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding_medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewServiceTitle"
+        app:layout_constraintTop_toBottomOf="@id/textViewEstablishmentTitle"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="Зал 1" />
 
@@ -119,6 +120,7 @@ tools:context=".bookings.ui.BookingFragment">
 
     <Button
         android:id="@+id/buttonBook"
+        android:theme="@style/SecondaryColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding_medium"

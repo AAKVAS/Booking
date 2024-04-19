@@ -3,6 +3,9 @@ package com.example.booking.common.data
 import androidx.room.RoomDatabase
 
 
+/**
+ * Room база данных приложения
+ */
 //@Database(
 //    entities = [
 //

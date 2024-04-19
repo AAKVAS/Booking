@@ -12,6 +12,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+/**
+ * Модуль предоставляющий доступ к ретрофиту и удалённым репозиториям
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {

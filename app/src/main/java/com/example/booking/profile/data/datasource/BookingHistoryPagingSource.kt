@@ -5,6 +5,9 @@ import androidx.paging.PagingState
 import com.example.booking.profile.data.network.toModel
 import com.example.booking.profile.domain.model.BookingHistory
 
+/**
+ * [PagingSource] списка истории бронирований
+ */
 class BookingHistoryPagingSource (
     private val userLogin: String,
     private val api: ProfileAPI

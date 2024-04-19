@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".establishments.ui.EstablishmentFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/backgroundImg"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/establishment_background_height"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/textViewEstablishmentTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_small"
+            android:textColor="@color/md_theme_primary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/backgroundImg"
+            app:layout_constraintEnd_toStartOf="@id/buttonStar"
+            tools:text="Янки" />
+
+        <TextView
+            android:id="@+id/textViewEstablishmentDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewEstablishmentTitle"
+            android:fontFamily="sans-serif-light"
+            app:layout_constraintEnd_toStartOf="@id/buttonStar"
+            tools:text="Описание. Очень много текста.
+                Lorem ipsum.
+                In his house at R’lyeh dead Cthulhu waits dreaming.
+                С головы сорвал ветер мой колпак." />
+
+        <ImageButton
+            android:id="@+id/buttonStar"
+            android:layout_width="@dimen/star_size"
+            android:layout_height="@dimen/star_size"
+            android:background="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:src="@drawable/star"
+            android:layout_margin="@dimen/padding_small"
+            app:layout_constraintTop_toBottomOf="@id/backgroundImg"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewHalls"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/padding_small"
+            app:layout_constraintTop_toBottomOf="@id/textViewEstablishmentDescription"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -5,9 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.flatMap
-import androidx.paging.map
 import com.example.booking.auth.domain.model.UserDetails
-import com.example.booking.bookings.domain.model.Booking
 import com.example.booking.common.ui.viewModel.NetworkViewModel
 import com.example.booking.common.utils.getUUID
 
@@ -17,11 +15,16 @@ import com.example.booking.profile.ui.model.BookingHistoryUiItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
 
 /**
@@ -39,6 +42,28 @@ class ProfileViewModel @Inject constructor(
     val userDetails: StateFlow<UserDetails>
         get() = _userDetails
 
+    private val _bookingCanceledFlow: MutableSharedFlow<Result<Unit>> = MutableSharedFlow(0)
+
+    /**
+     * Результат попытки отмены бронирования
+     */
+    val bookingCanceledFlow = _bookingCanceledFlow.asSharedFlow()
+
+    private val _deleteBookingFlow: MutableSharedFlow<Result<Unit>> = MutableSharedFlow(0)
+
+    /**
+     * Результат попытки удаления бронирования из истории
+     */
+    val deleteBookingFlow = _deleteBookingFlow.asSharedFlow()
+
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            interactor.getUserDetails().collect { details ->
+                _userDetails.update { details }
+            }
+        }
+    }
+
     /**
      * Возвращает поток истории бронирований
      */
@@ -49,19 +74,11 @@ class ProfileViewModel @Inject constructor(
             }.cachedIn(viewModelScope)
     }
 
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            interactor.getUserDetails().collect { details ->
-                _userDetails.update { details }
-            }
-        }
-    }
-
     private fun PagingData<BookingHistory>.mapToUi(): PagingData<BookingHistoryUiItem> {
         return this.flatMap {
             val date = BookingHistoryUiItem.Date(
                 uid = getUUID(),
-                date = it.date
+                date = convertDate(it.date)
             )
 
             val bookings = it.items.map { booking ->
@@ -69,14 +86,54 @@ class ProfileViewModel @Inject constructor(
                     uid = booking.uid,
                     id = booking.id,
                     statusId = booking.statusId,
-                    status = booking.status,
-                    service = booking.service,
+                    establishment = booking.establishment,
                     startedAt = booking.startedAt,
                     endedAt = booking.endedAt
                 )
             }
 
             listOf(date) + bookings
+        }
+    }
+
+    private fun convertDate(dateString: String): String {
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+
+        val today = Calendar.getInstance().time
+        val yesterday = Calendar.getInstance().apply { this.add(Calendar.DATE, -1) }.time
+        val tomorrow = Calendar.getInstance().apply { this.add(Calendar.DATE, 1) }.time
+
+        val todayDate = dateFormat.format(today)
+        val yesterdayDate = dateFormat.format(yesterday.time)
+        val tomorrowDate = dateFormat.format(tomorrow.time)
+
+        return when (dateString) {
+            todayDate -> "Сегодня"
+            yesterdayDate -> "Вчера"
+            tomorrowDate -> "Завтра"
+            else -> {
+                val date = dateFormat.parse(dateString) ?: return ""
+                val newFormat = SimpleDateFormat("dd MMMM yyyy",  Locale.getDefault())
+                newFormat.format(date)
+            }
+        }
+    }
+
+    /**
+     * Отменить бронирование
+     */
+    fun cancelBooking(bookingId: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _bookingCanceledFlow.emit(interactor.cancelBooking(bookingId))
+        }
+    }
+
+    /**
+     * Удалить бронирование из истории
+     */
+    fun deleteBooking(bookingId: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _deleteBookingFlow.emit(interactor.deleteBooking(bookingId))
         }
     }
 }

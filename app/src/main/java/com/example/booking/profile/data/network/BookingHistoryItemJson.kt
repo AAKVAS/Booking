@@ -8,9 +8,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class BookingHistoryItemJson (
     val id: Long,
-    val service: BookingServiceJson,
+    val establishment: BookingEstablishmentJson,
     val statusId: Int,
-    val status: String,
     val startedAt: Int,
     val endedAt: Int,
 )

@@ -6,6 +6,8 @@
     <string name="city">Город</string>
 
     <string name="ok">Ок</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
     <string name="cancel">Отмена</string>
 
     <string name="login">Логин</string>
@@ -38,6 +40,19 @@
     <string name="filter">Фильтр</string>
     <string name="booking_history_empty">История бронирований пуста</string>
     <string name="history">История</string>
+    <string name="cancel_booking_failure">Не удалось отменить бронирование</string>
+    <string name="delete_booking_failure">Не удалось удалить бронирование из истории</string>
+
+    <string name="booked">Забронировано</string>
+    <string name="ended">Событие завершилось</string>
+    <string name="canceled_by_client">Отменено клиентом</string>
+    <string name="canceled_by_provider">Отменено заведением</string>
+    <string name="unidentified_status">Неопознанный статус</string>
+
+    <string name="delete">Удалить</string>
+    <string name="delete_booking_confirm">Вы точно хотите удалить бронирование из истории?</string>
+    <string name="cancel_booking">Отменить</string>
+    <string name="cancel_booking_confirm">Вы точно хотите отменить бронирование?</string>
 
     <string name="success_booked">Успешно забронировано</string>
     <string name="failure_booked">Не удалось забронировать место</string>

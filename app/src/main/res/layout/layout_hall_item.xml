@@ -6,10 +6,12 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/padding_small"
     app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardBackgroundColor="@color/md_theme_surfaceContainerLowest"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@color/md_theme_surfaceContainerLowest"
         android:layout_height="200dp"
         android:layout_marginBottom="@dimen/padding_small">
 
