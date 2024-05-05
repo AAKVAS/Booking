@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.booking.auth.domain.LoginInteractor
 import com.example.booking.auth.domain.model.RegisterResult
-import com.example.booking.auth.domain.model.RegistrationDetails
+import com.example.booking.auth.domain.model.UserDetails
+import com.example.booking.common.ui.viewModel.NetworkViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -21,15 +22,15 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
-    private val interactor: LoginInteractor
-) : ViewModel() {
-    private val _registrationDetailsFlow: MutableStateFlow<RegistrationDetails> =
-        MutableStateFlow(RegistrationDetails())
+    override val interactor: LoginInteractor
+) : NetworkViewModel(interactor) {
+    private val _registrationDetailsFlow: MutableStateFlow<UserDetails> =
+        MutableStateFlow(UserDetails())
 
     /**
      * Состояние данных для регистрации
      */
-    val registrationDetailsFlow: StateFlow<RegistrationDetails>
+    val registrationDetailsFlow: StateFlow<UserDetails>
         get() = _registrationDetailsFlow.asStateFlow()
 
     private val _registeredFlow: MutableSharedFlow<Boolean> = MutableSharedFlow(0)
@@ -43,17 +44,21 @@ class RegistrationViewModel @Inject constructor(
     /**
      * Изменить состояние данных для регистрации
      */
-    fun setRegistrationDetails(registrationDetails: RegistrationDetails) {
+    fun setRegistrationDetails(registrationDetails: UserDetails) {
         _registrationDetailsFlow.update { registrationDetails }
     }
 
     /**
      * Попытаться зарегестрироваться в системе
      */
-    fun register(registrationDetails: RegistrationDetails) {
+    fun register(registrationDetails: UserDetails) {
         viewModelScope.launch(Dispatchers.IO) {
-            val registered = interactor.register(registrationDetails) is RegisterResult.Success
-            _registeredFlow.emit(registered)
+            if (interactor.isServiceAvailable()) {
+                val registered = interactor.register(registrationDetails) is RegisterResult.Success
+                _registeredFlow.emit(registered)
+            } else {
+                isServiceAvailableStateFlow.emit(false)
+            }
         }
     }
 }

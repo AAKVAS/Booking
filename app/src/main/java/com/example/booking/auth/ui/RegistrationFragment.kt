@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -13,9 +14,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.booking.MainActivity
 import com.example.booking.R
-import com.example.booking.auth.domain.model.RegistrationDetails
+import com.example.booking.auth.domain.model.UserDetails
 import com.example.booking.auth.ui.viewmodel.RegistrationViewModel
 import com.example.booking.common.ui.showDatePicker
+import com.example.booking.common.utils.isNetworkAvailable
+import com.example.booking.common.utils.showNetworkNotAvailableMessage
 import com.example.booking.common.utils.toStringDate
 import com.example.booking.databinding.FragmentRegistrationBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,7 +32,7 @@ class RegistrationFragment : Fragment() {
     private lateinit var binding: FragmentRegistrationBinding
     private val viewModel: RegistrationViewModel by viewModels()
 
-    private var registrationDetails: RegistrationDetails = RegistrationDetails()
+    private var registrationDetails: UserDetails = UserDetails()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +46,16 @@ class RegistrationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         bind()
         subscribeToViewModel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val context = requireContext()
+        if (!context.isNetworkAvailable()) {
+            context.showNetworkNotAvailableMessage()
+        } else {
+            viewModel.checkServiceAvailable()
+        }
     }
 
     private fun bind() {
@@ -68,7 +81,15 @@ class RegistrationFragment : Fragment() {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 launch { viewModel.registrationDetailsFlow.collect(::onRegistrationDetailsChanged) }
                 launch { viewModel.registeredFlow.collect(::onRegisteredEvent) }
+                launch { viewModel.isServiceAvailable.collect(::serviceAvailabilityChanged) }
             }
+        }
+    }
+
+    private fun serviceAvailabilityChanged(available: Boolean) {
+        with(binding) {
+            includeServiceUnavailable.serviceUnavailableLayout.isVisible = !available
+            layoutContainer.isVisible = available
         }
     }
 
@@ -91,7 +112,7 @@ class RegistrationFragment : Fragment() {
         }
     }
 
-    private fun onRegistrationDetailsChanged(registrationDetails: RegistrationDetails) {
+    private fun onRegistrationDetailsChanged(registrationDetails: UserDetails) {
         with(binding) {
             textEditLogin.editText!!.setText(registrationDetails.login)
             textEditPassword.editText!!.setText(registrationDetails.password)

@@ -11,11 +11,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.booking.MainActivity
 import com.example.booking.R
 import com.example.booking.auth.domain.model.UserDetails
+import com.example.booking.common.ui.adapters.BaseNavAdapter
+import com.example.booking.common.ui.adapters.NavListItem
+import com.example.booking.common.ui.adapters.SwitchAdapter
+import com.example.booking.common.ui.adapters.SwitchListItem
 import com.example.booking.common.ui.showDatePicker
 import com.example.booking.common.utils.TextInputDialog
+import com.example.booking.common.utils.convertDate
 import com.example.booking.common.utils.toStringDate
 import com.example.booking.databinding.DialogChangePasswordBinding
 import com.example.booking.databinding.FragmentSettingsBinding
@@ -33,6 +40,11 @@ class SettingsFragment : Fragment() {
 
     private val viewModel: SettingsViewModel by viewModels()
 
+    private val settingsAdapter: BaseNavAdapter = BaseNavAdapter()
+    private val switchAdapter: SwitchAdapter = SwitchAdapter()
+    private val buttonsAdapter: BaseNavAdapter = BaseNavAdapter()
+    private val settingsConcatAdapter: ConcatAdapter = ConcatAdapter(settingsAdapter, switchAdapter, buttonsAdapter)
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,48 +56,12 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            btnLogout.setOnClickListener {
-                viewModel.logout()
-            }
-            btnChangePassword.setOnClickListener {
-                changePassword()
-            }
-            imageViewEditLastname.setOnClickListener {
-                showEditLastnameDialog()
-            }
-            imageViewEditFirstname.setOnClickListener {
-                showEditFirstnameDialog()
-            }
-            imageViewEditBirthday.setOnClickListener {
-                showDatePicker(
-                    tag = SETTING_BIRTHDAY_TAG,
-                    date = viewModel.userDetails.value.birthday
-                ) { newBirthday ->
-                    val details = viewModel.userDetails.value.copy(birthday = newBirthday)
-                    viewModel.saveUserDetails(details)
-                }
-            }
-            notificationSwitch.setOnCheckedChangeListener { buttonView, value ->
-                if (buttonView.isPressed) {
-                    viewModel.changeNeedPush(value)
-                }
-            }
+            settingsRecyclerView.adapter = settingsConcatAdapter
+            settingsRecyclerView.addItemDecoration(
+                DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+            )
         }
         subscribeToViewModel()
-    }
-
-    private fun showEditLastnameDialog() {
-        TextInputDialog(requireContext(), resources.getString(R.string.input_new_lastname)) { newLastname ->
-            val details = viewModel.userDetails.value.copy(lastname = newLastname)
-            viewModel.saveUserDetails(details)
-        }.show()
-    }
-
-    private fun showEditFirstnameDialog() {
-        TextInputDialog(requireContext(),  resources.getString(R.string.input_new_name)) { newFirstname ->
-            val details = viewModel.userDetails.value.copy(firstname = newFirstname)
-            viewModel.saveUserDetails(details)
-        }.show()
     }
 
     private fun subscribeToViewModel() {
@@ -100,12 +76,86 @@ class SettingsFragment : Fragment() {
     }
 
     private fun onUserDetailsChanged(userDetails: UserDetails) {
-        with(binding) {
-            textViewLastname.text = userDetails.lastname
-            textViewFirstname.text = userDetails.firstname
-            textViewBirthday.text = userDetails.birthday.toStringDate()
-            notificationSwitch.isChecked = userDetails.needPush
+        settingsAdapter.submitList(getSettingsList(userDetails))
+        switchAdapter.submitList(getSwitchList(userDetails))
+        buttonsAdapter.submitList(getButtonsList())
+    }
+
+    private fun getSettingsList(userDetails: UserDetails): List<NavListItem> {
+        val lastnameItem = NavListItem(
+            title = getString(R.string.lastname),
+            description = userDetails.lastname
+        ) {
+            showEditLastnameDialog()
         }
+
+        val firstnameItem = NavListItem(
+            title = getString(R.string.firstname),
+            description = userDetails.firstname
+        ) {
+            showEditFirstnameDialog()
+        }
+
+        val birthdayItem = NavListItem(
+            title = getString(R.string.birthday),
+            description = convertDate(
+                dateString = userDetails.birthday.toStringDate(),
+                originFormat = "dd.MM.yyyy"
+            )
+        ) {
+            showDatePicker(
+                tag = SETTING_BIRTHDAY_TAG,
+                date = viewModel.userDetails.value.birthday
+            ) { newBirthday ->
+                val details = viewModel.userDetails.value.copy(birthday = newBirthday)
+                viewModel.saveUserDetails(details)
+            }
+        }
+
+        return listOf(lastnameItem, firstnameItem, birthdayItem)
+    }
+
+    private fun getSwitchList(userDetails: UserDetails): List<SwitchListItem> {
+        return listOf(
+            SwitchListItem(
+                title = getString(R.string.need_push),
+                checked = userDetails.needPush
+            ) { buttonView, value ->
+                if (buttonView.isPressed) {
+                    viewModel.changeNeedPush(value)
+                }
+            }
+        )
+    }
+
+    private fun getButtonsList(): List<NavListItem> {
+        val logoutButtonItem = NavListItem(
+            title = getString(R.string.logout)
+        ) {
+            viewModel.logout()
+        }
+
+        val changePasswordItem = NavListItem(
+            title = getString(R.string.change_password)
+        ) {
+            changePassword()
+        }
+
+        return listOf(logoutButtonItem, changePasswordItem)
+    }
+
+    private fun showEditLastnameDialog() {
+        TextInputDialog(requireContext(), resources.getString(R.string.input_new_lastname)) { newLastname ->
+            val details = viewModel.userDetails.value.copy(lastname = newLastname)
+            viewModel.saveUserDetails(details)
+        }.show()
+    }
+
+    private fun showEditFirstnameDialog() {
+        TextInputDialog(requireContext(),  resources.getString(R.string.input_new_name)) { newFirstname ->
+            val details = viewModel.userDetails.value.copy(firstname = newFirstname)
+            viewModel.saveUserDetails(details)
+        }.show()
     }
 
     private fun onDetailsSaved(result: Result<Unit>) {
@@ -125,7 +175,15 @@ class SettingsFragment : Fragment() {
             (requireActivity() as MainActivity).navController
                 .navigate(R.id.action_settingsFragment_to_loginFragment)
         } else {
-            showNotSavedAlertDialog()
+            showNotLoggedOutMessage()
+        }
+    }
+    
+    private fun showNotLoggedOutMessage() {
+        with(AlertDialog.Builder(requireContext())) {
+            setTitle(R.string.error_happen)
+            setMessage(R.string.logout_failed)
+            show()
         }
     }
 
@@ -151,7 +209,7 @@ class SettingsFragment : Fragment() {
         val alertDialog = AlertDialog.Builder(requireContext())
             .setView(binding.root)
             .setPositiveButton(getString(R.string.ok)) { _, _ ->
-                val oldPassword = binding.teNewPassword.editText!!.text.toString()
+                val oldPassword = binding.teOldPassword.editText!!.text.toString()
                 val newPassword = binding.teNewPassword.editText!!.text.toString()
                 viewModel.changePassword(oldPassword, newPassword)
             }
@@ -164,7 +222,7 @@ class SettingsFragment : Fragment() {
     private fun showNotSavedAlertDialog() {
         with(AlertDialog.Builder(requireContext())) {
             setTitle(R.string.error_happen)
-            setMessage(R.string.logout_failed)
+            setMessage(R.string.data_not_saved)
             show()
         }
     }

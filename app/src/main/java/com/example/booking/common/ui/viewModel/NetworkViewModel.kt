@@ -14,19 +14,19 @@ import kotlinx.coroutines.launch
 abstract class NetworkViewModel (
     protected open val interactor: NetworkInteractor
 ) : ViewModel() {
-    private val _isServiceAvailable: MutableStateFlow<Boolean> = MutableStateFlow(true)
+    protected val isServiceAvailableStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(true)
     /**
      * Доступен ли backend-сервис
      */
     val isServiceAvailable: StateFlow<Boolean>
-        get() = _isServiceAvailable
+        get() = isServiceAvailableStateFlow
 
     /**
      * Проверить доступность backend-сервиса
      */
     fun checkServiceAvailable() {
         viewModelScope.launch(Dispatchers.IO) {
-            _isServiceAvailable.emit(interactor.isServiceAvailable())
+            isServiceAvailableStateFlow.emit(interactor.isServiceAvailable())
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.example.booking.profile.data.datasource
 
 import com.example.booking.profile.data.network.BookingHistoryJson
-import com.example.booking.profile.domain.model.BookingHistory
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -15,7 +14,7 @@ interface ProfileAPI {
     /**
      * Возвращает историю бронирований
      */
-    @GET("user-history")
+    @GET("/profile/history")
     suspend fun getBookingHistory(
         @Query("userLogin") userLogin: String,
         @Query("page") page: Int,
@@ -25,7 +24,7 @@ interface ProfileAPI {
     /**
      * Отменяет бронирование
      */
-    @POST("cancel-booking")
+    @POST("/profile/history/cancel-booking")
     @FormUrlEncoded
     suspend fun cancelBooking(
         @Field("userLogin") userLogin: String,
@@ -35,7 +34,7 @@ interface ProfileAPI {
     /**
      * Удаляет бронирование из истории
      */
-    @POST("delete-booking")
+    @POST("/profile/history/delete-booking")
     @FormUrlEncoded
     suspend fun deleteBooking(
         @Field("userLogin") userLogin: String,

@@ -7,5 +7,5 @@ object NetworkConstants {
     /**
      * Главный IP-адрес backend'а
      */
-    const val BASE_URL = "http://192.168.0.4:3000/"
+    const val BASE_URL = "http://192.168.0.4:8081/"
 }

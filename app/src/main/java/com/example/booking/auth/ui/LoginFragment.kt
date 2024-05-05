@@ -1,11 +1,12 @@
 package com.example.booking.auth.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +15,8 @@ import com.example.booking.MainActivity
 import com.example.booking.R
 import com.example.booking.auth.domain.model.LoginDetails
 import com.example.booking.auth.ui.viewmodel.LoginViewModel
+import com.example.booking.common.utils.isNetworkAvailable
+import com.example.booking.common.utils.showNetworkNotAvailableMessage
 import com.example.booking.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -40,6 +43,16 @@ class LoginFragment : Fragment() {
         subscribeToViewModel()
     }
 
+    override fun onResume() {
+        super.onResume()
+        val context = requireContext()
+        if (!context.isNetworkAvailable()) {
+            context.showNetworkNotAvailableMessage()
+        } else {
+            viewModel.checkServiceAvailable()
+        }
+    }
+
     private fun bind() {
         with(binding) {
             btnLogin.setOnClickListener {
@@ -62,7 +75,15 @@ class LoginFragment : Fragment() {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 launch { viewModel.loginDetailsState.collect(::onLoginDetailsChanged) }
                 launch { viewModel.loggedFlow.collect(::onLoggedEvent) }
+                launch { viewModel.isServiceAvailable.collect(::serviceAvailabilityChanged) }
             }
+        }
+    }
+
+    private fun serviceAvailabilityChanged(available: Boolean) {
+        with(binding) {
+            includeServiceUnavailable.serviceUnavailableLayout.isVisible = !available
+            layoutContainer.isVisible = available
         }
     }
 

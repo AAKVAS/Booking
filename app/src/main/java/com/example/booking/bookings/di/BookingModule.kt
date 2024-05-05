@@ -2,7 +2,6 @@ package com.example.booking.bookings.di
 
 import com.example.booking.bookings.data.datasource.BookingAPI
 import com.example.booking.bookings.data.repository.BookingRepositoryImpl
-import com.example.booking.bookings.domain.model.Booking
 import com.example.booking.bookings.domain.repository.BookingRepository
 import com.example.booking.common.di.NetworkModule
 import dagger.Module

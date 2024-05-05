@@ -6,3 +6,4 @@ import java.util.UUID
  * Получить GUID
  */
 fun getUUID() = UUID.randomUUID().toString()
+

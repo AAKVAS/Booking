@@ -90,6 +90,7 @@ class ProfileFragment : Fragment() {
 
     private fun onDeleteBooking(result: Result<Unit>) {
         if (result.isSuccess) {
+            showBookingDeletedMessage()
             getBookings()
         } else {
             showDeleteBookingFailureMessage()
@@ -98,6 +99,7 @@ class ProfileFragment : Fragment() {
 
     private fun onCancelBooking(result: Result<Unit>) {
         if (result.isSuccess) {
+            showBookingCanceledMessage()
             getBookings()
         } else {
             showCancelBookingFailureMessage()
@@ -110,9 +112,29 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun showBookingDeletedMessage() {
+        with(AlertDialog.Builder(requireContext())) {
+            setMessage(R.string.delete_booking_success)
+            setPositiveButton(R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+            }
+            show()
+        }
+    }
+
     private fun showDeleteBookingFailureMessage() {
         with(AlertDialog.Builder(requireContext())) {
             setMessage(R.string.delete_booking_failure)
+            setPositiveButton(R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+            }
+            show()
+        }
+    }
+
+    private fun showBookingCanceledMessage() {
+        with(AlertDialog.Builder(requireContext())) {
+            setMessage(R.string.cancel_booking_success)
             setPositiveButton(R.string.ok) { dialog, _ ->
                 dialog.dismiss()
             }

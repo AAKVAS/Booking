@@ -24,83 +24,35 @@ tools:context=".bookings.ui.BookingFragment">
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="Янки" />
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/dateTimeCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/padding_small"
+        android:layout_marginHorizontal="@dimen/padding_medium"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:layout_constraintTop_toBottomOf="@id/textViewEstablishmentTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/dateTimeRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </androidx.cardview.widget.CardView>
+
     <TextView
         android:id="@+id/textViewHallTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding_medium"
+        android:gravity="center_horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewEstablishmentTitle"
+        app:layout_constraintTop_toBottomOf="@id/dateTimeCard"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="Зал 1" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/bookingDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/choose_date"
-        android:layout_margin="@dimen/padding_medium"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewHallTitle">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusable="false"
-            android:paddingVertical="@dimen/padding_small"
-            android:clickable="false"
-            android:inputType="none" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/timeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding_medium"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bookingDate">
-
-        <TextView
-            android:id="@+id/textViewStartTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/start"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <TextView
-            android:id="@+id/textViewEndTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/end"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <TextView
-            android:id="@+id/textViewStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_small"
-            android:fontFamily="sans-serif-medium"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewStartTitle"
-            tools:text="00:00" />
-
-        <TextView
-            android:id="@+id/textViewEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_small"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="end"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewEndTitle"
-            tools:text="00:00" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -109,7 +61,7 @@ tools:context=".bookings.ui.BookingFragment">
         app:cardCornerRadius="@dimen/card_corner_radius"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timeLayout"
+        app:layout_constraintTop_toBottomOf="@id/textViewHallTitle"
         app:layout_constraintBottom_toTopOf="@id/buttonBook">
 
         <com.example.booking.common.ui.view.ScrollablePlacesView

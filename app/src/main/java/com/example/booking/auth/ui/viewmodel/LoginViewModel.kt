@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.booking.auth.domain.LoginInteractor
 import com.example.booking.auth.domain.model.LoginDetails
+import com.example.booking.common.ui.viewModel.NetworkViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -18,8 +19,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val interactor: LoginInteractor
-) : ViewModel() {
+    override val interactor: LoginInteractor
+) : NetworkViewModel(interactor) {
     private val _loginDetailsState: MutableStateFlow<LoginDetails> =
         MutableStateFlow(LoginDetails("", ""))
 
@@ -42,7 +43,11 @@ class LoginViewModel @Inject constructor(
      */
     fun login(loginDetails: LoginDetails) {
         viewModelScope.launch(Dispatchers.IO) {
-            _loggedFlow.emit(interactor.login(loginDetails))
+            if (interactor.isServiceAvailable()) {
+                _loggedFlow.emit(interactor.login(loginDetails))
+            } else {
+                isServiceAvailableStateFlow.emit(false)
+            }
         }
     }
 }

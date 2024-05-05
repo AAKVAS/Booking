@@ -6,8 +6,8 @@ import com.example.booking.common.domain.NetworkInteractor
 import com.example.booking.common.domain.repository.RemoteRepository
 import com.example.booking.establishments.data.entity.SearchParams
 import com.example.booking.establishments.domain.model.City
-import com.example.booking.establishments.domain.repository.EstablishmentRepository
 import com.example.booking.establishments.domain.model.Establishment
+import com.example.booking.establishments.domain.repository.EstablishmentRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject

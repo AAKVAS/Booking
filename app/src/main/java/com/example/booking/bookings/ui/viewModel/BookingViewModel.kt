@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 /**
  * [ViewModel] экрана бронирования
@@ -27,12 +28,24 @@ class BookingViewModel @AssistedInject constructor(
     @Assisted val bookingEstablishment: BookingEstablishmentParam,
     private val interactor: BookingInteractor
 ) : ViewModel() {
+
+    private val _bookButtonEnabledStateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val bookButtonEnabledStateFlow = _bookButtonEnabledStateFlow.asStateFlow()
+
     /**
      * Фабрика для создания класса [BookingViewModel]
      */
     @AssistedFactory
     interface BookingViewModelFactory {
         fun create(bookingService: BookingEstablishmentParam): BookingViewModel
+    }
+
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            val bookButtonEnabled = interactor.isUserLogged()
+            _bookButtonEnabledStateFlow.emit(bookButtonEnabled)
+            updatePlaces()
+        }
     }
 
     private val _bookingStateFlow: MutableStateFlow<Booking> = MutableStateFlow(
@@ -42,7 +55,7 @@ class BookingViewModel @AssistedInject constructor(
             place = null,
             startedAt = DEFAULT_STARTED_AT,
             endedAt = DEFAULT_ENDED_AT,
-            date = 0
+            date = Calendar.getInstance().timeInMillis
         )
     )
 
@@ -59,6 +72,28 @@ class BookingViewModel @AssistedInject constructor(
      */
     fun updateBookingState(booking: Booking) {
         _bookingStateFlow.update { booking }
+    }
+
+    /**
+     * Обновить список мест
+     */
+    fun updatePlaces() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val booking = _bookingStateFlow.value
+                val places = interactor.getPlaces(
+                    hallId = booking.hall.id,
+                    startedAt = booking.startedAt,
+                    endedAt = booking.endedAt,
+                    date = booking.date
+                )
+                val hall = booking.hall.copy(places = places)
+                _bookingStateFlow.update { booking.copy(hall = hall) }
+            }
+            catch (ignored: Exception) {
+                println(ignored.message)
+            }
+        }
     }
 
     /**

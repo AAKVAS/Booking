@@ -24,7 +24,6 @@ class LocalLoginDatasourceImpl(private val context: Context)
 
     override suspend fun saveUserDetails(userDetails: UserDetails) {
         context.dataStore.edit {
-            it[USER_TOKEN] = userDetails.token
             it[USER_LOGIN] = userDetails.login
             it[USER_LASTNAME] = userDetails.lastname
             it[USER_FIRSTNAME] = userDetails.firstname
@@ -35,10 +34,9 @@ class LocalLoginDatasourceImpl(private val context: Context)
 
     override fun getLoggedUserDetails(): Flow<UserDetails> {
         return context.dataStore.data
-            .filter { it[USER_TOKEN] != null }
+            .filter { it[USER_LOGIN] != null }
             .map {
             UserDetails(
-                token = it[USER_TOKEN]!!,
                 login = it[USER_LOGIN]!!,
                 lastname = it[USER_LASTNAME]!!,
                 firstname = it[USER_FIRSTNAME]!!,
@@ -49,12 +47,11 @@ class LocalLoginDatasourceImpl(private val context: Context)
     }
 
     override suspend fun isUserLogged(): Boolean {
-        return context.dataStore.data.first()[USER_TOKEN] != null
+        return context.dataStore.data.first()[USER_LOGIN] != null
     }
 
     override suspend fun logout() {
         context.dataStore.edit {
-            it.remove(USER_TOKEN)
             it.remove(USER_LOGIN)
             it.remove(USER_LASTNAME)
             it.remove(USER_FIRSTNAME)
@@ -66,7 +63,6 @@ class LocalLoginDatasourceImpl(private val context: Context)
     companion object {
         private const val PREFERENCE_NAME = "user"
 
-        private val USER_TOKEN = stringPreferencesKey("user_token")
         private val USER_LOGIN = stringPreferencesKey("user_login")
         private val USER_LASTNAME = stringPreferencesKey("user_lastname")
         private val USER_FIRSTNAME = stringPreferencesKey("user_firstname")

@@ -1,10 +1,9 @@
 package com.example.booking.auth.domain.repository
 
+import com.example.booking.auth.domain.model.LoginDetails
 import com.example.booking.auth.domain.model.LoginResult
 import com.example.booking.auth.domain.model.RegisterResult
 import com.example.booking.auth.domain.model.UserDetails
-import com.example.booking.auth.domain.model.LoginDetails
-import com.example.booking.auth.domain.model.RegistrationDetails
 import com.example.booking.profile.domain.model.ChangePasswordResult
 import kotlinx.coroutines.flow.Flow
 
@@ -19,7 +18,7 @@ interface LoginRepository {
     /**
      * Регистрация в профиле
      */
-    suspend fun register(registrationDetails: RegistrationDetails): RegisterResult
+    suspend fun register(registrationDetails: UserDetails): RegisterResult
     /**
      * Вошёл ли пользователь в аккаунт
      */

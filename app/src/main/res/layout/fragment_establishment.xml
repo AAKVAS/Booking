@@ -35,12 +35,23 @@
             tools:text="Янки" />
 
         <TextView
+            android:id="@+id/textViewAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_small"
+            android:fontFamily="sans-serif-light"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewEstablishmentTitle"
+            app:layout_constraintEnd_toStartOf="@id/buttonStar"
+            tools:text="г. Вологда, ул. Ленина" />
+
+        <TextView
             android:id="@+id/textViewEstablishmentDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/padding_small"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewEstablishmentTitle"
+            app:layout_constraintTop_toBottomOf="@id/textViewAddress"
             android:fontFamily="sans-serif-light"
             app:layout_constraintEnd_toStartOf="@id/buttonStar"
             tools:text="Описание. Очень много текста.

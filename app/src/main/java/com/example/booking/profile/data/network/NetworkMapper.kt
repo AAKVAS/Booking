@@ -1,9 +1,9 @@
 package com.example.booking.profile.data.network
 
 import com.example.booking.common.utils.getUUID
+import com.example.booking.establishments.domain.model.Establishment
 import com.example.booking.profile.domain.model.BookingHistory
 import com.example.booking.profile.domain.model.BookingHistoryItem
-import com.example.booking.establishments.domain.model.Establishment
 
 fun BookingHistoryJson.toModel(): BookingHistory =
     BookingHistory(

@@ -3,6 +3,7 @@ package com.example.booking.common.utils
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 /**
  * Конвертирование даты из Long в строковое значение
@@ -47,4 +48,34 @@ fun Long.millisToDate(format: String = "dd.MM.yyyy"): String {
     val calendar: Calendar = Calendar.getInstance()
     calendar.timeInMillis = this
     return SimpleDateFormat(format).format(calendar.time)
+}
+
+/**
+ * Переводит дату из одно формата в другой
+ */
+fun convertDate(
+    dateString: String,
+    originFormat: String = "dd-MM-yyyy",
+    resultFormat: String = "dd MMMM yyyy",
+): String {
+    val dateFormat = SimpleDateFormat(originFormat, Locale.getDefault())
+
+    val today = Calendar.getInstance().time
+    val yesterday = Calendar.getInstance().apply { this.add(Calendar.DATE, -1) }.time
+    val tomorrow = Calendar.getInstance().apply { this.add(Calendar.DATE, 1) }.time
+
+    val todayDate = dateFormat.format(today)
+    val yesterdayDate = dateFormat.format(yesterday.time)
+    val tomorrowDate = dateFormat.format(tomorrow.time)
+
+    return when (dateString) {
+        todayDate -> "Сегодня"
+        yesterdayDate -> "Вчера"
+        tomorrowDate -> "Завтра"
+        else -> {
+            val date = dateFormat.parse(dateString) ?: return ""
+            val newFormat = SimpleDateFormat(resultFormat,  Locale.getDefault())
+            newFormat.format(date)
+        }
+    }
 }

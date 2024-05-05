@@ -7,6 +7,7 @@ import androidx.paging.cachedIn
 import androidx.paging.flatMap
 import com.example.booking.auth.domain.model.UserDetails
 import com.example.booking.common.ui.viewModel.NetworkViewModel
+import com.example.booking.common.utils.convertDate
 import com.example.booking.common.utils.getUUID
 
 import com.example.booking.profile.domain.ProfileInteractor
@@ -22,9 +23,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 import javax.inject.Inject
 
 /**
@@ -78,7 +76,7 @@ class ProfileViewModel @Inject constructor(
         return this.flatMap {
             val date = BookingHistoryUiItem.Date(
                 uid = getUUID(),
-                date = convertDate(it.date)
+                date = convertDate(dateString = it.date)
             )
 
             val bookings = it.items.map { booking ->
@@ -93,29 +91,6 @@ class ProfileViewModel @Inject constructor(
             }
 
             listOf(date) + bookings
-        }
-    }
-
-    private fun convertDate(dateString: String): String {
-        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-
-        val today = Calendar.getInstance().time
-        val yesterday = Calendar.getInstance().apply { this.add(Calendar.DATE, -1) }.time
-        val tomorrow = Calendar.getInstance().apply { this.add(Calendar.DATE, 1) }.time
-
-        val todayDate = dateFormat.format(today)
-        val yesterdayDate = dateFormat.format(yesterday.time)
-        val tomorrowDate = dateFormat.format(tomorrow.time)
-
-        return when (dateString) {
-            todayDate -> "Сегодня"
-            yesterdayDate -> "Вчера"
-            tomorrowDate -> "Завтра"
-            else -> {
-                val date = dateFormat.parse(dateString) ?: return ""
-                val newFormat = SimpleDateFormat("dd MMMM yyyy",  Locale.getDefault())
-                newFormat.format(date)
-            }
         }
     }
 

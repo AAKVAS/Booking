@@ -30,6 +30,7 @@ class EstablishmentListAdapter(
                 }
                 textViewTitle.text = establishment.title
                 textViewDescription.text = establishment.description
+                textViewAddress.text = establishment.address
             }
         }
     }

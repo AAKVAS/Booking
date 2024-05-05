@@ -2,10 +2,10 @@ package com.example.booking.establishments.data.network
 
 import com.example.booking.common.utils.getUUID
 import com.example.booking.establishments.domain.model.City
+import com.example.booking.establishments.domain.model.Establishment
 import com.example.booking.establishments.domain.model.Hall
 import com.example.booking.establishments.domain.model.Place
 import com.example.booking.establishments.domain.model.PlaceCoordinate
-import com.example.booking.establishments.domain.model.Establishment
 
 fun CityJson.toModel(): City =
     City(

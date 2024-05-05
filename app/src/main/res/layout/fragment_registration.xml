@@ -7,6 +7,7 @@
     tools:context=".auth.ui.RegistrationFragment">
 
     <ScrollView
+        android:id="@+id/layoutContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -180,5 +181,15 @@
                 android:hint="@string/entry" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <include
+        android:id="@+id/includeServiceUnavailable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        layout="@layout/layout_service_is_unavailable" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

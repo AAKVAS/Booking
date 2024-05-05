@@ -39,7 +39,7 @@ class BookingHistoryPagingSource (
     }
 
     companion object {
-        private const val INITIAL_PAGE = 1
-        private const val DEFAULT_PAGE_SIZE = 10
+        private const val INITIAL_PAGE = 0
+        private const val DEFAULT_PAGE_SIZE = 5
     }
 }

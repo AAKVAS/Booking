@@ -2,8 +2,8 @@ package com.example.booking.establishments.data.datasource
 
 import com.example.booking.establishments.data.network.CityJson
 import com.example.booking.establishments.data.network.EstablishmentJson
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
+import okhttp3.RequestBody
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -49,12 +49,7 @@ interface EstablishmentListAPI {
      * Меняет избранность заведения
      */
     @POST("set-favorite-establishment")
-    @FormUrlEncoded
-    suspend fun setEstablishmentFavorite(
-        @Field("userLogin") userLogin: String,
-        @Field("establishmentId") establishmentId: Long,
-        @Field("favorite") favorite: Boolean
-    )
+    suspend fun setEstablishmentFavorite(@Body requestBody: RequestBody)
 
     /**
      * Возвращает список городов для фильтрации

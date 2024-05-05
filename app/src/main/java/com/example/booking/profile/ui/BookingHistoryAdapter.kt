@@ -2,20 +2,16 @@ package com.example.booking.profile.ui
 
 import android.app.AlertDialog
 import android.content.Context
-import android.text.Html
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
-import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
-import androidx.core.text.HtmlCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.example.booking.R
 import com.example.booking.common.utils.createDiffCallback
 import com.example.booking.common.utils.toTextTime
@@ -57,10 +53,6 @@ class BookingHistoryAdapter(
                 textViewStart.text = booking.startedAt.toTextTime()
                 textViewEnd.text = booking.endedAt.toTextTime()
                 textViewStatus.text = getStatus(itemView.context!!, booking.statusId)
-                backgroundImg.load(booking.establishment.imageLink) {
-                    crossfade(true)
-                    placeholder(R.drawable.loading_img)
-                }
                 imgButtonMore.setOnClickListener {
                     showPopupMenu(imgButtonMore, booking)
                 }

@@ -16,8 +16,8 @@ import com.example.booking.R
 import com.example.booking.bookings.ui.model.BookingEstablishmentParam
 import com.example.booking.common.data.LoadingState
 import com.example.booking.databinding.FragmentEstablishmentBinding
-import com.example.booking.establishments.domain.model.Hall
 import com.example.booking.establishments.domain.model.Establishment
+import com.example.booking.establishments.domain.model.Hall
 import com.example.booking.establishments.ui.adapters.HallsRecyclerAdapter
 import com.example.booking.establishments.ui.viewmodel.EstablishmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -86,6 +86,7 @@ class EstablishmentFragment : Fragment() {
                 with(binding) {
                     textViewEstablishmentTitle.text = establishmentState.body.title
                     textViewEstablishmentDescription.text = establishmentState.body.description
+                    textViewAddress.text = establishmentState.body.address
                     backgroundImg.load(establishmentState.body.imageLink) {
                         crossfade(true)
                         placeholder(R.drawable.loading_img)

@@ -5,17 +5,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.booking.MainActivity
 import com.example.booking.R
 import com.example.booking.bookings.domain.model.Booking
 import com.example.booking.bookings.ui.model.BookingValidationStatus
 import com.example.booking.bookings.ui.viewModel.BookingViewModel
+import com.example.booking.common.ui.adapters.BaseNavAdapter
+import com.example.booking.common.ui.adapters.NavListItem
+import com.example.booking.common.utils.convertDate
 import com.example.booking.common.utils.millisToDate
 import com.example.booking.common.utils.timeToInt
 import com.example.booking.common.utils.toTextTime
@@ -27,6 +32,7 @@ import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 /**
  * Фрагмент экрана бронирования
@@ -43,6 +49,8 @@ class BookingFragment : Fragment() {
     private val viewModel: BookingViewModel by viewModels {
         BookingViewModel.provideFactory(viewModelFactory, args.bookingEstablishmentParam)
     }
+
+    private val dateTimeBookingAdapter: BaseNavAdapter = BaseNavAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,40 +74,6 @@ class BookingFragment : Fragment() {
             placesView.setOnPlaceChanged {
                 viewModel.updateBookingState(viewModel.bookingStateFlow.value.copy(place = it))
             }
-            textViewStart.setOnClickListener {
-                val booking = viewModel.bookingStateFlow.value
-                booking.startedAt.toTime { hours, minutes ->
-                    showTimePicker(
-                        title = getString(R.string.booking_start),
-                        onPosClick = { newHour, newMinute ->
-                            val time = timeToInt(newHour, newMinute)
-                            viewModel.updateBookingState(booking.copy(startedAt = time))
-                        },
-                        hours = hours,
-                        minutes = minutes
-                    )
-                }
-            }
-            textViewEnd.setOnClickListener {
-                val booking = viewModel.bookingStateFlow.value
-                booking.startedAt.toTime { hours, minutes ->
-                    showTimePicker(
-                        title = getString(R.string.booking_end),
-                        onPosClick = { newHour, newMinute ->
-                            val time = timeToInt(newHour, newMinute)
-                            viewModel.updateBookingState(booking.copy(endedAt = time))
-                        },
-                        hours = hours,
-                        minutes = minutes
-                    )
-                }
-            }
-            bookingDate.editText!!.setOnClickListener {
-                val booking = viewModel.bookingStateFlow.value
-                showCalendar(booking.date) {
-                    viewModel.updateBookingState(booking.copy(date = it))
-                }
-            }
             buttonBook.setOnClickListener {
                 val status = viewModel.validateBooking()
                 if (status != BookingValidationStatus.VALID) {
@@ -108,6 +82,10 @@ class BookingFragment : Fragment() {
                     viewModel.bookPlace()
                 }
             }
+            dateTimeRecycler.adapter = dateTimeBookingAdapter
+            dateTimeRecycler.addItemDecoration(
+                DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+            )
         }
     }
 
@@ -116,17 +94,87 @@ class BookingFragment : Fragment() {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 launch { viewModel.bookingStateFlow.collect(::onBookingChanged)}
                 launch { viewModel.bookingResultFlow.collect(::onBookingResult) }
+                launch { viewModel.bookButtonEnabledStateFlow.collect(::onBookButtonEnabledChange) }
             }
         }
     }
 
     private fun onBookingChanged(booking: Booking) {
-        with(binding) {
-            textViewStart.text = booking.startedAt.toTextTime()
-            textViewEnd.text = booking.endedAt.toTextTime()
-            bookingDate.editText!!.setText(booking.date.millisToDate())
-        }
+        dateTimeBookingAdapter.submitList(
+            fillDateTimeBookingList(booking)
+        )
+        binding.placesView.places = booking.hall.places
     }
+
+    private fun onBookButtonEnabledChange(enabled: Boolean) {
+        binding.buttonBook.isVisible = enabled
+    }
+
+    private fun fillDateTimeBookingList(
+        booking: Booking
+    ): List<NavListItem> {
+        val bookingDate = convertDate(
+            dateString = booking.date.millisToDate(),
+            originFormat = "dd.MM.yyyy"
+        )
+        val startedAt = booking.startedAt.toTextTime()
+        val endedAt = booking.endedAt.toTextTime()
+
+        val dateListItem = NavListItem(
+            title = getString(R.string.choose_date),
+            description = bookingDate,
+            imageSrc = R.drawable.next
+        ) {
+            val booking = viewModel.bookingStateFlow.value
+            showCalendar(booking.date) {
+                viewModel.updateBookingState(booking.copy(date = it))
+                viewModel.updatePlaces()
+            }
+        }
+
+        val startedAtItem = NavListItem(
+            title = getString(R.string.start),
+            description = startedAt,
+            imageSrc = R.drawable.next
+        ) {
+            val booking = viewModel.bookingStateFlow.value
+            booking.startedAt.toTime { hours, minutes ->
+                showTimePicker(
+                    title = getString(R.string.booking_start),
+                    onPosClick = { newHour, newMinute ->
+                        val time = timeToInt(newHour, newMinute)
+                        viewModel.updateBookingState(booking.copy(startedAt = time))
+                        viewModel.updatePlaces()
+                    },
+                    hours = hours,
+                    minutes = minutes
+                )
+            }
+        }
+
+        val endedAtItem = NavListItem(
+            title = getString(R.string.end),
+            description = endedAt,
+            imageSrc = R.drawable.next
+        ) {
+            val booking = viewModel.bookingStateFlow.value
+            booking.endedAt.toTime { hours, minutes ->
+                showTimePicker(
+                    title = getString(R.string.booking_end),
+                    onPosClick = { newHour, newMinute ->
+                        val time = timeToInt(newHour, newMinute)
+                        viewModel.updateBookingState(booking.copy(endedAt = time))
+                        viewModel.updatePlaces()
+                    },
+                    hours = hours,
+                    minutes = minutes
+                )
+            }
+        }
+
+        return listOf(dateListItem, startedAtItem, endedAtItem)
+    }
+
 
     private fun onBookingResult(result: Result<Unit>) {
         if (result.isSuccess) {
