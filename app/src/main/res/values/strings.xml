@@ -81,4 +81,7 @@
     <string name="retry_later">Попробуйте позже</string>
     <string name="retry">Попробовать снова</string>
     <string name="network_not_available">Нет доступа к сети</string>
+
+    <string name="place_booked_notification">У Вас забронировано место с %s до %s</string>
+    <string name="booking_notification">Напоминание о бронировании</string>
 </resources>

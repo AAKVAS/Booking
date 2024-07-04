@@ -13,9 +13,9 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.booking"
+        applicationId = "com.example.bookingB"
         minSdk = 27
-        targetSdk = 34
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 

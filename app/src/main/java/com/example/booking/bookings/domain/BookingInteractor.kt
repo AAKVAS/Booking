@@ -2,6 +2,7 @@ package com.example.booking.bookings.domain
 
 import com.example.booking.auth.domain.repository.LoginRepository
 import com.example.booking.bookings.domain.model.Booking
+import com.example.booking.bookings.domain.model.BookingEvent
 import com.example.booking.bookings.domain.repository.BookingRepository
 import com.example.booking.establishments.domain.model.Place
 import kotlinx.coroutines.flow.first
@@ -20,6 +21,7 @@ class BookingInteractor  @Inject constructor(
     suspend fun bookPlace(booking: Booking): Result<Unit> {
         return runCatching {
             bookingRepository.bookPlace(getUserLogin(), booking)
+            bookingRepository.insertBookingEvent(booking)
         }
     }
 
@@ -37,5 +39,13 @@ class BookingInteractor  @Inject constructor(
 
     suspend fun getPlaces(hallId: Long, startedAt: Int, endedAt: Int, date: Long): List<Place> {
         return bookingRepository.getPlaces(hallId, startedAt, endedAt, date)
+    }
+
+    suspend fun getComingBookingEvents(): List<BookingEvent> {
+        return bookingRepository.getComingBookingEvents()
+    }
+
+    suspend fun deleteOldEvents() {
+        bookingRepository.deleteOldEvents()
     }
 }

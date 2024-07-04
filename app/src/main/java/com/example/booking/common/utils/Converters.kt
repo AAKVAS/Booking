@@ -79,3 +79,22 @@ fun convertDate(
         }
     }
 }
+
+/**
+ * Текущая дата в виде количества миллисекунд
+ */
+fun currentDay(): Long {
+    val millis = System.currentTimeMillis()
+    return millis - millis % 86400000
+}
+
+/**
+ * Текущее количество часов в минутах
+ */
+fun currentHoursInMinutes(): Int {
+    val millis = System.currentTimeMillis()
+    val calendar: Calendar = Calendar.getInstance()
+    calendar.timeInMillis = millis
+    val hour = calendar.get(Calendar.HOUR_OF_DAY)
+    return hour * 60
+}
