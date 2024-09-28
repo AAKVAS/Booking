@@ -10,11 +10,16 @@
 
 * Также есть возможность посмотреть историю бронирований.
 
-<img src="img/image.png" height="500">
-<img src="img/image-4.png" height="500">
-<img src="img/image-1.png" height="500">
-<img src="img/image-2.png" height="500">
-<img src="img/image-3.png" height="500">
+<div align="center">
+  <img src="img/image.png" width="220">
+  <img src="img/image-4.png" width="220">
+  <img src="img/image-1.png" width="220">
+</div>
+
+<div align="center">
+  <img src="img/image-2.png" width="220">
+  <img src="img/image-3.png" width="220">
+</div> 
 
 
 ## Используемые технологии
