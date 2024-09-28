@@ -6,22 +6,22 @@
 
 * Пользователи могут искать интересующие их заведения по названию, а также фильтровать по городам.
 
-<img src="image.png" height="600">
-<img src="image-4.png" height="600">
-
 * Пользователи могут выбрать дату и забронировать интересующие их места на нужное время.
-
-<img src="image-1.png" height="600">
-<img src="image-2.png" height="600">
 
 * Также есть возможность посмотреть историю бронирований.
 
-<img src="image-3.png" height="600">
+<img src="img/image.png" height="500">
+<img src="img/image-4.png" height="500">
+<img src="img/image-1.png" height="500">
+<img src="img/image-2.png" height="500">
+<img src="img/image-3.png" height="500">
+
 
 ## Используемые технологии
 
 Приложение разработано под ОС Android на языке Kotlin с применением паттерна MVVM. Стек:
 * Hilt
+* Coroutines
 * Room
 * Retrofit
 * Coil
